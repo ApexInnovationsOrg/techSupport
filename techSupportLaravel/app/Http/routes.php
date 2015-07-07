@@ -31,6 +31,8 @@ Route::post('transferTicket','TechSupportController@transferTicket');
 Route::post('unclaimTicket','TechSupportController@unclaimTicket');
 Route::post('taunt','TechSupportController@taunt');
 Route::get('userJSON','TechSupportController@userJSON');
+Route::any('email','MassEmailController@index');
+Route::get('email/{emailType?}','MassEmailController@sendEmail');
 
 
 Route::controllers([

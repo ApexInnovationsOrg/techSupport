@@ -10,9 +10,8 @@ a{
     text-decoration:none;
 }
 </style>
-  <p style="font-size:20px">Dearest {{ $transferTo->FirstName }},</p>
-  <div style="margin:14pt 0 18.75pt 0; font-size:16px">{{ $transferredFrom }} has <b>transferred</b> the ticket, <b>{{ $codeName }}</b> at {{ $time }} to you.</div>
-  <div style="margin:14pt 0 18.75pt 0; font-size:16px">Reason: {{ $reason }}</div>
+
+  <div style="margin:14pt 0 18.75pt 0; font-size:16px">Ticket transferred to you.</div>
   <ol>
     <li>Call (337)216-4599</li>
     <li>**111 for voicemail</li>

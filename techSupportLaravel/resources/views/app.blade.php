@@ -41,6 +41,7 @@
 					<li><a href="{{ url('/') }}">Tickets</a></li>
 					<li><a href="{{ url('/stats') }}">Stats</a></li>
 					<li><a href="{{ url('/payOut') }}">Payout</a></li>
+					<li><a href="{{ url('/email') }}">Email</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
