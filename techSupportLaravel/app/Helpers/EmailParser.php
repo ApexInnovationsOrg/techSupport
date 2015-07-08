@@ -75,9 +75,9 @@ class EmailParser extends BasicObject {
         //     $message->bcc($techSupport, 'Tech Support')->subject('Ticket Created');
         // });
 
-        Mail::send('emails.spamCheck',['url'=>'https://devbox.apexinnovations.com/admin/techSupport/iamnotspam'], function($message)
+        Mail::queue('emails.spamCheck',['url'=>'https://devbox.apexinnovations.com/admin/techSupport/iamnotspam'], function($message)
         {
-            $message->to('mike@apexinnovations.com')->subject('Read me please!');
+            $message->to('eddie@apexinnovations.com')->subject('Read me please!');
         });
 
     }   

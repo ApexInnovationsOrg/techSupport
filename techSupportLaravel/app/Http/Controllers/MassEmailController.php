@@ -60,15 +60,24 @@ class MassEmailController extends Controller {
 				// SELECT U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
 				foreach($users as $user)
 				{	
-					Mail::queue(['emails.hemi2.test','emails.hemi2.Non_Hemi_Store_PlainTextEmail'], ['image' => 'Current_Hemi_Admins'], function($message) use ($user)
-			        {
-			            $message->to($user->Login, $user->Name);
-			            $message->subject('Hemispheres 2.0 coming soon!');
-			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
+					// Mail::send(['emails.hemi2.test','emails.hemi2.Non_Hemi_Store_PlainTextEmail'], ['image' => 'Current_Hemi_Admins'], function($message) use ($user)
+			  //       {
+			  //           $message->to($user->Login, $user->Name);
+			  //           $message->subject('Hemispheres 2.0 coming soon!');
+			  //           $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
 
-			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
+			  //           $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
 
-			        });
+			  //       });
+						 
+					  Mail::queue('emails.hemi2.base',  ['image' => 'Current_Hemi_Admins'], function($message) use ($user)
+				        {
+				        	// dd($user->Login);
+				            $message->to($user->Login, $user->Name);
+				            $message->subject('Hemispheres 2.0 coming soon!');
+				            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
+			            	$message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
+				        });
 				}
 				return redirect('/email')->with('message','Test email successfully sent'); 
 			case 'hemiAdmins':
@@ -93,7 +102,7 @@ class MassEmailController extends Controller {
 				dd($users);
 				foreach($users as $user)
 				{					
-					Mail::queue(['emails.hemi2.base','emails.hemi2.Current_Hemi_Store_PlainTextEmail'], ['image' => 'Current_Hemi_Store'], function($message)
+					Mail::queue(['emails.hemi2.base','emails.hemi2.Current_Hemi_Store_PlainTextEmail'], ['image' => 'Current_Hemi_Store'], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
 			            $message->subject('Hemispheres 2.0 coming soon!');
@@ -109,7 +118,7 @@ class MassEmailController extends Controller {
 				dd($users);
 				foreach($users as $user)
 				{	
-					Mail::queue(['emails.hemi2.base','emails.hemi2.Expired_Hemi_Admins_PlainTextEmail'], ['image' => 'Expired_Hemi_Admins'], function($message)
+					Mail::queue(['emails.hemi2.base','emails.hemi2.Expired_Hemi_Admins_PlainTextEmail'], ['image' => 'Expired_Hemi_Admins'], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
 			            $message->subject('NEW Hemispheres 2.0, Just Released!');
@@ -125,7 +134,7 @@ class MassEmailController extends Controller {
 				// SELECT DISTINCT(U.Login) FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE L.ProductID = 2 AND LP.EndDate < NOW() AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT U.ID FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() ) AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
 				foreach($users as $user)
 				{	
-					Mail::queue(['emails.hemi2.base','emails.hemi2.Expired_Hemi_Store_PlainTextEmail'], ['image' => 'Expired_Hemi_Store'], function($message)
+					Mail::queue(['emails.hemi2.base','emails.hemi2.Expired_Hemi_Store_PlainTextEmail'], ['image' => 'Expired_Hemi_Store'], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
 			            $message->subject('NEW Hemispheres 2.0, Just Released!');
@@ -141,7 +150,7 @@ class MassEmailController extends Controller {
 				// SELECT U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID NOT IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N')
 				foreach($users as $user)
 				{	
-					Mail::queue(['emails.hemi2.base','emails.hemi2.Non_Hemi_Admins_PlainTextEmail'], ['image' => 'Non_Hemi_Admins'], function($message)
+					Mail::queue(['emails.hemi2.base','emails.hemi2.Non_Hemi_Admins_PlainTextEmail'], ['image' => 'Non_Hemi_Admins'], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
 			            $message->subject('NEW Stroke Education from Apex Innovations, Hemispheres 2.0, Just Released!');
@@ -157,7 +166,7 @@ class MassEmailController extends Controller {
 				foreach($users as $user)
 				{	
 				// SELECT DISTINCT(U.Login) FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT U.ID FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE ProductID = 2 ) AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
-					Mail::queue(['emails.hemi2.base','emails.hemi2.Non_Hemi_Store_PlainTextEmail'], ['image' => 'Non_Hemi_Store'], function($message)
+					Mail::queue(['emails.hemi2.base','emails.hemi2.Non_Hemi_Store_PlainTextEmail'], ['image' => 'Non_Hemi_Store'], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
 			            $message->subject('NEW Stroke Education from Apex Innovations, Hemispheres 2.0, Just Released!');
