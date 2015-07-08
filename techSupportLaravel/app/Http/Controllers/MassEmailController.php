@@ -70,7 +70,7 @@ class MassEmailController extends Controller {
 
 			  //       });
 						 
-					  Mail::queue('emails.hemi2.base',  ['image' => 'Current_Hemi_Admins'], function($message) use ($user)
+					  Mail::send('emails.hemi2.base',  [], function($message) use ($user)
 				        {
 				        	// dd($user->Login);
 				            $message->to($user->Login, $user->Name);

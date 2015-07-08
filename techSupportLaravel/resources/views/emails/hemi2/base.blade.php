@@ -6,7 +6,13 @@
     <tbody>
         <tr>
             <td align="center">
-                <img src="<?php echo $message->embed('images/hemi2/' . isset($image) ? $image : 'Non_Hemi_Admins' . '.png'); ?>" style="padding-bottom: 10px;" alt="Hemispheres 2.0" />
+            	<?php 
+	            	if(!isset($image))
+	            	{
+	            		$image = 'Non_Hemi_Admins';
+	            	}
+            	?>
+                <img src="<?php echo $message->embed('images/hemi2/' .  $image . '.png'); ?>" style="padding-bottom: 10px;" alt="Hemispheres 2.0" />
             </td>
         </tr>
     </tbody>
