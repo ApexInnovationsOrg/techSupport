@@ -12,7 +12,7 @@
 	            		$image = 'Non_Hemi_Admins';
 	            	}
             	?>
-                <img src="<?php echo $message->embed('images/hemi2/' .  $image . '.png'); ?>" style="padding-bottom: 10px;" alt="Hemispheres 2.0" />
+                <img src="<?php echo $message->embed('https://www.apexinnovations.com/admin/techSupport/images/hemi2/' .  $image . '.png'); ?>" style="padding-bottom: 10px;" alt="Hemispheres 2.0" />
             </td>
         </tr>
     </tbody>
