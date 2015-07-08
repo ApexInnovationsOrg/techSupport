@@ -70,7 +70,7 @@ class MassEmailController extends Controller {
 
 			  //       });
 						 
-					  Mail::queue(['emails.hemi2.base','emails.hemi2.Current_Hemi_Admins_PlainTextEmail'], ['image' => 'Current_Hemi_Admins'], function($message) use ($user)
+					  Mail::send(['emails.hemi2.base','emails.hemi2.Non_Hemi_Store_PlainTextEmail'], ['image' => 'Non_Hemi_Store'], function($message) use ($user)
 				        {
 				        	// dd($user->Login);
 				            $message->to($user->Login, $user->Name);
@@ -161,8 +161,8 @@ class MassEmailController extends Controller {
 			    }
 				return redirect('/email')->with('message','nonHemiAdmins email successfully sent'); 
 			case 'nonHemiStore':
-				$users = DB::select("SELECT DISTINCT(U.Login), U.Name FROM (SELECT ID, Login, CONCAT(FirstName, ' ', LastName) AS Name FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT U.ID FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE ProductID = 2 ) AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N')");
-				dd($users);
+				$users = DB::select("SELECT DISTINCT(U.Login), U.Name FROM (SELECT ID, Login, CONCAT(FirstName, ' ', LastName) AS Name FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT U.ID FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE ProductID = 2 ) AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE SendNewsletter <> 'N')");
+				// dd($users);
 				foreach($users as $user)
 				{	
 				// SELECT DISTINCT(U.Login) FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT U.ID FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE ProductID = 2 ) AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
