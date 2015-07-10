@@ -145,6 +145,7 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 		'App\Mail\MailServiceProvider',
+		'Opb\LaravelHipchat\HipchatNotifierServiceProvider'
 
 	],
 
@@ -193,6 +194,8 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+		'HipchatNotifier' => 'Opb\LaravelHipchat\Facades\HipchatNotifier'
+
 
 	],
 
