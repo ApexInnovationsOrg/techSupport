@@ -80,8 +80,14 @@ class EmailParser extends BasicObject {
         // {
         //     $message->to('eddie@apexinnovations.com')->subject('Read me please!');
         // });
-        HipchatNotifier::message('this message is coming from laravel!',['queue'=>true]);
-        // HipchatNotifier::message('Queue failed.',['queue'=>false,'room'=>'the cage','color'=>'red']);
+        // HipchatNotifier::message('this message is coming from laravel!',['queue'=>true]);
+        
+        // dd($obj->data->url);
+        $json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
+        $obj = json_decode($json);
+        
+        HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
+        HipchatNotifier::message($obj->data[0]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
         // HipchatNotifier::message('Job: ' . 'asdf',['queue'=>false,'room'=>'the cage','color'=>'red']);
         // HipchatNotifier::message('Data: ' . 'adsf',['queue'=>false,'room'=>'the cage','color'=>'red']);
         // dd(HipchatNotifier);
@@ -229,6 +235,7 @@ class EmailParser extends BasicObject {
         {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket Created');
         });
+        HipchatNotifier::message($textMessage,['color'=>'red']);
     }
 
     static public function emailTicketStarted($codeName,$name,$startTime,$validated = 'Y')
@@ -247,6 +254,7 @@ class EmailParser extends BasicObject {
         {
             $message->bcc($techSupportCell, 'Tech Support')->subject($validated === 'N' ? 'Spam ticket claimed' : 'Ticket claimed');
         });
+        HipchatNotifier::message($textMessage,['color'=>'yellow']);
     }
 
     static public function emailTicketUnclaimed($codeName,$name,$time,$reason,$key)
@@ -263,6 +271,7 @@ class EmailParser extends BasicObject {
         {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket UNclaimed');
         });
+        HipchatNotifier::message($textMessage,['color'=>'red']);
     }
 
     static public function emailTicketTransferred($employeeTransferredTo,$codeName,$name,$time,$reason,$key)
@@ -281,6 +290,7 @@ class EmailParser extends BasicObject {
         {
             $message->bcc($employeeCellPhone, 'Tech Support')->subject('Ticket Transferred');
         });
+        HipchatNotifier::message($textMessage,['color'=>'yellow']);
     }
 
 
@@ -300,6 +310,7 @@ class EmailParser extends BasicObject {
         {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket completed');
         });
+        HipchatNotifier::message($textMessage,['color'=>'green']);
     }
 
     static public function nameGenerator()
@@ -317,6 +328,7 @@ class EmailParser extends BasicObject {
         {
             $message->to($owner->CellPhone, $owner->FirstName . ' ' . $owner->LastName)->subject('Taunt Received');
         });
+        HipchatNotifier::message($textMessage,['color'=>'purple']);
     }
 }
 EmailParser::init();//making a quasi constructor to set where the emails get sent based on the env
