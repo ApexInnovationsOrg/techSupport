@@ -80,8 +80,11 @@ class EmailParser extends BasicObject {
         // {
         //     $message->to('eddie@apexinnovations.com')->subject('Read me please!');
         // });
-        // HipchatNotifier::message('Hello!');
-        dd(HipchatNotifier);
+        HipchatNotifier::message('this message is coming from laravel!',['queue'=>true]);
+        // HipchatNotifier::message('Queue failed.',['queue'=>false,'room'=>'the cage','color'=>'red']);
+        // HipchatNotifier::message('Job: ' . 'asdf',['queue'=>false,'room'=>'the cage','color'=>'red']);
+        // HipchatNotifier::message('Data: ' . 'adsf',['queue'=>false,'room'=>'the cage','color'=>'red']);
+        // dd(HipchatNotifier);
     }   
     static public function parse()
     {

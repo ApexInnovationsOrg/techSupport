@@ -1,5 +1,6 @@
 <?php namespace App\Providers;
 
+use Queue;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -11,7 +12,11 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		Queue::failing(function ($connection, $job, $data) {
+	        HipchatNotifier::message('Queue failed.',['queue'=>false,'room'=>'the cage','color'=>'red']);
+	        HipchatNotifier::message('Job: ' . $job,['queue'=>false,'room'=>'the cage','color'=>'red']);
+	        HipchatNotifier::message('Data: ' . $data,['queue'=>false,'room'=>'the cage','color'=>'red']);
+        });
 	}
 
 	/**
