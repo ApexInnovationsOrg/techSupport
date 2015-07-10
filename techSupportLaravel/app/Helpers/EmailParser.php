@@ -17,6 +17,7 @@ use App\Adjective;
 use App\Users;
 use Mail;
 use Auth;
+use HipchatNotifier;
 use PhpImap\Mailbox as ImapMailbox;
 use PhpImap\IncomingMail;
 use PhpImap\IncomingMailAttachment;
@@ -75,11 +76,12 @@ class EmailParser extends BasicObject {
         //     $message->bcc($techSupport, 'Tech Support')->subject('Ticket Created');
         // });
 
-        Mail::queue('emails.spamCheck',['url'=>'https://devbox.apexinnovations.com/admin/techSupport/iamnotspam'], function($message)
-        {
-            $message->to('eddie@apexinnovations.com')->subject('Read me please!');
-        });
-
+        // Mail::queue('emails.spamCheck',['url'=>'https://devbox.apexinnovations.com/admin/techSupport/iamnotspam'], function($message)
+        // {
+        //     $message->to('eddie@apexinnovations.com')->subject('Read me please!');
+        // });
+        // HipchatNotifier::message('Hello!');
+        dd(HipchatNotifier);
     }   
     static public function parse()
     {
