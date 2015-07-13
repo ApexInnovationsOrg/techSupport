@@ -17,7 +17,7 @@
     <table width="100%" style="width:100%">
       <tr>
         <td colspan="2">
-          <center><img src="<?php echo $message->embed('https://www.apexinnovations.com/post_office/image001.jpg'); ?>" style="padding-bottom: 10px;" alt="Apex Innovations" /></center>
+          <center><img src="<?php echo $message->embed('https://www.apexinnovations.com/grfx/ApexLogo500.png'); ?>" style="padding-bottom: 10px; height:200px" alt="Apex Innovations" /></center>
         </td>
       </tr>
       <tr>    

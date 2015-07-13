@@ -34,6 +34,7 @@
 							<li><a href={{ url('email/expHemiStore') }}>expHemiStore</a></li>
 							<li><a href={{ url('email/nonHemiAdmins') }}>nonHemiAdmins</a></li>
 							<li><a href={{ url('email/nonHemiStore') }}>nonHemiStore</a></li>
+							<li><a href={{ url('email/canadianHemi') }}>canadianHemi</a></li>
 						</ol>
 					</div>
 		</div>
