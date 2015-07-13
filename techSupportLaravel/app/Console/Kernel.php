@@ -3,7 +3,7 @@
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use HipchatNotifier;
-
+use Log;
 class Kernel extends ConsoleKernel {
 
 	/**
@@ -35,9 +35,7 @@ class Kernel extends ConsoleKernel {
 	        HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
        		HipchatNotifier::message($obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
 
-		})
-		->everyMinute();
-
+		})->weekdays()->at('09:00')->at('10:00')->at('11:00')->at('12:00')->at('13:00')->at('14:00')->at('15:00')->at('16:00')->at('17:00');
       
 	}
 
