@@ -35,7 +35,8 @@ class Kernel extends ConsoleKernel {
 	        HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
        		HipchatNotifier::message($obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
 
-		})->hourly();
+		})
+		->everyMinute();
 
       
 	}

@@ -85,9 +85,10 @@ class EmailParser extends BasicObject {
         // dd($obj->data->url);
         $json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
         $obj = json_decode($json);
-        
-        HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
-        HipchatNotifier::message($obj->data[0]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
+
+        // HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
+        HipchatNotifier::message('Gif of the hour: '  . $obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
+        // HipchatNotifier::message("<b>Gif of the hour</b><br /><a href='" . $obj->data[array_rand($obj->data)]->images->original->url . "'>" . $obj->data[array_rand($obj->data)]->images->original->url . "</a>",['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
         // HipchatNotifier::message('Job: ' . 'asdf',['queue'=>false,'room'=>'the cage','color'=>'red']);
         // HipchatNotifier::message('Data: ' . 'adsf',['queue'=>false,'room'=>'the cage','color'=>'red']);
         // dd(HipchatNotifier);
