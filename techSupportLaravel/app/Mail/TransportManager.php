@@ -2,6 +2,7 @@
 
 
 use App\Mail\Transport\MailgunTransport;
+use GuzzleHttp\Client as HttpClient;
 
 class TransportManager extends \Illuminate\Mail\TransportManager {
 
@@ -13,8 +14,9 @@ class TransportManager extends \Illuminate\Mail\TransportManager {
 	 */
 	protected function createMailgunDriver()
 	{
-		$config = $this->app['config']->get('services.mailgun', array());
-		return new MailgunTransport($config['secret'], $config['domain']);
+		$client = new HttpClient;
+		$config = $this->app['config']->get('services.mailgun', []);
+		return new MailgunTransport($client, $config['secret'], $config['domain']);
 	}
 
 }

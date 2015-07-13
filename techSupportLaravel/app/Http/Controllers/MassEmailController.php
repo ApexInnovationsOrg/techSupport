@@ -70,14 +70,14 @@ class MassEmailController extends Controller {
 
 			  //       });
 						 
-					  Mail::send(['emails.hemi2.base','emails.hemi2.Non_Hemi_Store_PlainTextEmail'], ['image' => 'Non_Hemi_Store'], function($message) use ($user)
-				        {
-				        	// dd($user->Login);
-				            $message->to($user->Login, $user->Name);
-				            $message->subject('Hemispheres 2.0 coming soon!');
-				            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
-			            	$message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
-				        });
+					Mail::send('emails.hemi2.canadianHemi',[], function($message) use ($user)
+			        {
+			            $message->to($user->Login, $user->Name);
+			            $message->subject('NEW Canadian Stroke Education from Apex Innovations, Canadian Hemispheres 2.0 COMING SOON!');
+			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
+			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
+
+			        });
 				}
 				return redirect('/email')->with('message','Test email successfully sent'); 
 			case 'hemiAdmins':
@@ -175,6 +175,22 @@ class MassEmailController extends Controller {
 
 			        });
 					error_log('win');
+			    }
+				return redirect('/email')->with('message','nonHemiStore email successfully sent'); 
+			case 'canadianHemi':
+				$users = DB::select("SELECT U.Login, CONCAT(U.Firstname, ' ' , U.LastName) AS Name FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 6 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE SendNewsletter <> 'N')");
+				 dd($users);
+				foreach($users as $user)
+				{	
+				// SELECT DISTINCT(U.Login) FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT U.ID FROM (SELECT ID, Login FROM Users WHERE DepartmentID = 765 ) AS U INNER JOIN LicenseSeats AS LS ON LS.UserID = U.ID INNER JOIN LicensePeriods AS LP ON LP.ID = LS.LicensePeriodID INNER JOIN Licenses AS L ON L.ID = LP.LicenseID WHERE ProductID = 2 ) AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
+					Mail::queue('emails.hemi2.base', ['image' => 'Non_Hemi_Store'], function($message) use ($user)
+			        {
+			            $message->to($user->Login, $user->Name);
+			            $message->subject('NEW Canadian Stroke Education from Apex Innovations, Canadian Hemispheres 2.0 COMING SOON!');
+			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
+			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
+
+			        });
 			    }
 				return redirect('/email')->with('message','nonHemiStore email successfully sent'); 
 			default:
