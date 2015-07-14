@@ -25,18 +25,19 @@ class Kernel extends ConsoleKernel {
 	{
 		// $schedule->command('inspire')
 		// 		 ->hourly();
-
-
-        $schedule->call(function()
+		$times = ['09:00','10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+		foreach($times as $time)
 		{
-		
-			$json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
-	        $obj = json_decode($json);
-	        HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
-       		HipchatNotifier::message($obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
+	        $schedule->call(function()
+			{
+			
+				$json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
+		        $obj = json_decode($json);
+		        HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
+	       		HipchatNotifier::message($obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
 
-		})->weekdays()->at('09:00')->at('10:00')->at('11:00')->at('12:00')->at('13:00')->at('14:00')->at('15:00')->at('16:00')->at('17:00');
-      
+			})->weekdays()->at($time);
+      	}
 	}
 
 }
