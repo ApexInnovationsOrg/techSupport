@@ -25,8 +25,7 @@ class MailgunTransport extends \Illuminate\Mail\Transport\MailgunTransport {
         } else {
             $options['body'] = [
                 'to' => $this->getTo($message),
-                'message' => new PostFile('message', (string) $message),
-				'o:native-send' => 'true'
+                'message' => new PostFile('message', (string) $message)
             ];
         }
 

@@ -66,11 +66,19 @@ class EmailParser extends BasicObject {
         $techSupport = ['2819140203@vzwpix.com','eddie@apexinnovations.com'];
         $techSupportCell = self::$techSupportCell;
         $key = 'test';
+        $type = 'test';
                
         // Mail::send('emails.ticketCreated', ['key' => 'test', 'codeName' => 'test'], function($message) use ($codeName, $techSupport) 
         // {
         //     $message->bcc($techSupport, 'Tech Support')->subject('TST: "' . $codeName . '" created');
         // }); 
+        $textMessage = "$codeName created. Type: $type. Claim at ";
+        Mail::send(['text'=>'emails.blank'],['textMessage' => $textMessage], function($message) use ($techSupportCell) 
+        {
+            $message->bcc(['2819140203@vzwpix.com','eddie@apexinnovations.com'], 'Tech Support')->subject('Ticket Created');
+            $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
+             
+        });
         // Mail::raw("$codeName created.\n Type: test.\n Claim at " . url('admin/techSupport/startTicket/?key='.$key), function($message) use ($techSupport) 
         // {
         //     $message->bcc($techSupport, 'Tech Support')->subject('Ticket Created');
@@ -83,15 +91,16 @@ class EmailParser extends BasicObject {
         // HipchatNotifier::message('this message is coming from laravel!',['queue'=>true]);
         
         // dd($obj->data->url);
-        $json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
-        $obj = json_decode($json);
+        // $json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
+        // $obj = json_decode($json);
 
         // HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
-        HipchatNotifier::message('Gif of the hour: '  . $obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
+        // HipchatNotifier::message('Gif of the hour: '  . $obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
         // HipchatNotifier::message("<b>Gif of the hour</b><br /><a href='" . $obj->data[array_rand($obj->data)]->images->original->url . "'>" . $obj->data[array_rand($obj->data)]->images->original->url . "</a>",['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
         // HipchatNotifier::message('Job: ' . 'asdf',['queue'=>false,'room'=>'the cage','color'=>'red']);
         // HipchatNotifier::message('Data: ' . 'adsf',['queue'=>false,'room'=>'the cage','color'=>'red']);
         // dd(HipchatNotifier);
+        return 'sent';
     }   
     static public function parse()
     {
@@ -235,6 +244,7 @@ class EmailParser extends BasicObject {
         Mail::queue('emails.blank',['textMessage' => $textMessage], function($message) use ($techSupportCell) 
         {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket Created');
+            $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
         HipchatNotifier::message($textMessage,['color'=>'red']);
     }
@@ -254,6 +264,7 @@ class EmailParser extends BasicObject {
         Mail::queue('emails.blank',['textMessage' => $textMessage], function($message) use ($techSupportCell,$validated) 
         {
             $message->bcc($techSupportCell, 'Tech Support')->subject($validated === 'N' ? 'Spam ticket claimed' : 'Ticket claimed');
+            $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
         HipchatNotifier::message($textMessage,['color'=>'yellow']);
     }
@@ -271,6 +282,7 @@ class EmailParser extends BasicObject {
         Mail::queue('emails.blank',['textMessage' => $textMessage], function($message) use ($techSupportCell) 
         {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket UNclaimed');
+            $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
         HipchatNotifier::message($textMessage,['color'=>'red']);
     }
@@ -290,6 +302,7 @@ class EmailParser extends BasicObject {
         Mail::queue('emails.blank',['textMessage' => $textMessage], function($message) use ($employeeCellPhone) 
         {
             $message->bcc($employeeCellPhone, 'Tech Support')->subject('Ticket Transferred');
+            $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
         HipchatNotifier::message($textMessage,['color'=>'yellow']);
     }
@@ -310,6 +323,7 @@ class EmailParser extends BasicObject {
         Mail::queue('emails.blank',['textMessage' => $textMessage], function($message) use ($techSupportCell) 
         {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket completed');
+            $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
         HipchatNotifier::message($textMessage,['color'=>'green']);
     }
@@ -328,6 +342,7 @@ class EmailParser extends BasicObject {
         Mail::queue('emails.blank',['textMessage' => $textMessage], function($message) use ($owner) 
         {
             $message->to($owner->CellPhone, $owner->FirstName . ' ' . $owner->LastName)->subject('Taunt Received');
+            $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
         HipchatNotifier::message($textMessage,['color'=>'purple']);
     }
