@@ -61,10 +61,10 @@ class MassEmailController extends Controller {
 				foreach($users as $user)
 				{	
 						 
-					Mail::send('emails.hemi2.canadianHemi',['name'=>$user->Name], function($message) use ($user)
+					Mail::send('emails.hemi2.reminderEmail',['name'=>$user->Name], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
-			            $message->subject('NEW Canadian Stroke Education from Apex Innovations, Canadian Hemispheres 2.0 COMING SOON!');
+			            $message->subject('Hemispheres 2.0 is here!');
 			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
 			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
 
@@ -81,6 +81,22 @@ class MassEmailController extends Controller {
 			        {
 			            $message->to($user->Login, $user->Name);
 			            $message->subject('Hemispheres 2.0 coming soon!');
+			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
+			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
+
+			        });
+				}
+				return redirect('/email')->with('message','hemiAdmins email successfully sent'); 
+			case 'hemiAdminsReminder':
+				$users = DB::select("SELECT CONCAT(U.FirstName, ' ', U.LastName) AS Name, U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE SendNewsletter <> 'N')");
+				// dd($users);
+				// SELECT U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
+				foreach($users as $user)
+				{	
+					Mail::queue('emails.hemi2.reminderEmail',['name'=>$user->Name], function($message) use ($user)
+			        {
+			            $message->to($user->Login, $user->Name);
+			            $message->subject('Hemispheres 2.0 is here!');
 			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
 			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
 
