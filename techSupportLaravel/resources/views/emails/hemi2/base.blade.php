@@ -12,7 +12,7 @@
 	            		$image = 'Non_Hemi_Admins';
 	            	}
             	?>
-                <a href="https://www.apexinnovations.com/Hemispheres2.0.html"><img src="<?php echo $message->embed('https://www.apexinnovations.com/admin/techSupport/images/hemi2/' .  $image . '.png'); ?>" style="padding-bottom: 10px;" alt="Hemispheres 2.0" /></a>
+                <a href="https://www.apexinnovations.com/CanadianHemispheres.html"><img src="<?php echo $message->embed('https://www.apexinnovations.com/admin/techSupport/images/hemi2/' .  $image . '.png'); ?>" style="padding-bottom: 10px;" alt="Hemispheres 2.0" /></a>
             </td>
         </tr>
     </tbody>

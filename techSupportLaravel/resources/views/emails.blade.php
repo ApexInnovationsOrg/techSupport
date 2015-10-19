@@ -28,9 +28,9 @@
 					<div>	
 						<ol>
 							<li><a href={{ url('email/test') }}>Test</a></li>
-							<li><a href={{ url('email/hemiAdmins') }}>hemiAdmins</a></li>
+							<li><a href={{ url('email/CAhemiAdmins') }}>hemiAdmins</a></li>
 							<li><a href={{ url('email/hemiStore') }}>hemiStore</a></li>
-							<li><a href={{ url('email/expHemiAdmins') }}>expHemiAdmins</a></li>
+							<li><a href={{ url('email/expCAHemiAdmins') }}>expHemiAdmins</a></li>
 							<li><a href={{ url('email/expHemiStore') }}>expHemiStore</a></li>
 							<li><a href={{ url('email/nonHemiAdmins') }}>nonHemiAdmins</a></li>
 							<li><a href={{ url('email/nonHemiStore') }}>nonHemiStore</a></li>

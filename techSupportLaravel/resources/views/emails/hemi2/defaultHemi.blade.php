@@ -17,7 +17,7 @@
     <table width="100%" style="width:100%">
       <tr>
         <td colspan="2">
-          <center><img src="<?php echo $message->embed('https://s3.amazonaws.com/uploads.hipchat.com/133998/970616/sWp740dXRvX5twY/Hemispheres-2.0Canada_Eblast'); ?>" style="" alt="Apex Innovations" /></center>
+          <center><img src="<?php echo $message->embed('https://s3.amazonaws.com/uploads.hipchat.com/133998/970616/Ujbpo6wqwjH36GU/CH2EB_CurrentCanHemi_001.jpg'); ?>" style="" alt="Apex Innovations" /></center>
         </td>
       </tr>
       <tr>    

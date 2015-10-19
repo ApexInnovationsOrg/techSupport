@@ -1,11 +1,9 @@
-Apex Innovations is proud to announce the release of Hemispheres 2.0 making your interactive stroke educational experience even better!!!
+Apex Innovations is proud to announce the release of Canadian Hemispheres 2.0, making your interactive stroke educational experience even better!!!
 
 =========
 * When? *
 =========
-Beginning July 15, 2015, all current Hemispheres system or organizational administrators will have the ability to upgrade their organization to “new” Hemispheres 2.0 by simply clicking “Upgrade Now” after login.  On August 15th, ALL current Hemispheres users nationwide will be seamlessly and automatically upgraded to Hemispheres 2.0.
-
-Please be sure to communicate this to everyone on your team!
+In early November 2015, all current Canadian Hemispheres organizational administrators will have the ability to upgrade their organization to “new” Canadian Hemispheres 2.0 by simply clicking “Upgrade Now” after login.  On December 1, 2015, ALL current Canadian Hemispheres users nationwide will be seamlessly and automatically upgraded to Canadian Hemispheres 2.0! Please be sure to communicate this to everyone on your team!
 
 ===============
 * What's new? *
@@ -13,13 +11,18 @@ Please be sure to communicate this to everyone on your team!
 -Presentation formats and graphics
 -Edited and expanded relevant content
 -Modified Rankin Scale
--Prevention and patient education
--Acute stroke ready and  telemedicine 
--Quality and reimbursement
+-Updated prevention guidelines
+-Patient education
+-Hyperacute stroke care
+-Telemedicine 
+-CA Stroke Best Practice Recommendations
 -Care notes and teaching tips
 -Drag n drop quizzes and testing
 
-As stroke can occur anywhere, not just in the Prehospital or ED setting, we decided to change the name of Level III to Emergency Response to Stroke. 
+
+The title of Level III has been changed to Hyperacute Stroke Care
+The title of Level VII has been changed to Excellence in Stroke Care
+
 
 Take a look at all new information on:
 -Imaging basics (CT, MRI)
@@ -30,12 +33,12 @@ Take a look at all new information on:
 ========
 * Why? *
 ========
-You asked.  We listened.  Thank you for continuing to partner with us as we strive to bring you a world class, online learning experience.
+You asked.  We listened.  Thank you for continuing to partner with us as we strive to bring you a world class, online learning experience. 
 
 If you have any additional questions, please contact your Apex account representative!
 
 
-Sincerly,
+Sincerely,
 The Apex Team
 
 

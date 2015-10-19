@@ -1,11 +1,11 @@
-Apex Innovations is proud to announce the release of Hemispheres 2.0, the very best stroke educational experience available!
+Apex Innovations is proud to announce the release of Canadian Hemispheres 2.0, the very best stroke educational experience available!
 
 ===============================
 * Stroke education made easy! *
 ===============================
 -Always current stroke best practices and guidelines
 -Consistent, comprehensive 
--See, hear and do learning
+-See, hear, and do learning
 -Amazing graphics
 -Engaging interactivity to facilitate learning
 -Seven courses and free NIHSS 
@@ -19,33 +19,36 @@ Apex Innovations is proud to announce the release of Hemispheres 2.0, the very b
 -Presentation formats and graphics
 -Edited and expanded relevant content
 -Modified Rankin Scale 
--Prevention and patient education
+-Updated prevention guidelines
+-Patient education
 -Imaging basics (CT, MRI)
 -Endovascular procedures
 -Reperfusion syndrome
--Acute stroke ready and telemedicine
--Quality and reimbursement 
+-Hyperacute stroke care
+-Telemedicine
+-CA Stroke Best Practice Recommendations
 -Care notes and teaching tips
--Drag and drop quizzes and testing
+-Drag n drop quizzes and testing
 -And much more
-
 
 ============
 * Use for: *
 ============
 -Orientation
 -Annual competencies
--Achieving or maintaining accreditation
+-Achieving or maintaining stroke distinction
 -Professional development
 
 
 ===============
-We partner with and listen to our users as we continue to provide world class, online stroke education.
+
+We partner with and listen to our users as we continue to provide world class, online stroke education.  
 
 Enroll individual departments, your organization or hospital system with our enterprise options.
 Call us today at 866-294-4599  x112 to learn more!
 
-Sincerly,
+
+Sincerely,
 The Apex Team
 
 Email: Info@apexinnovations.com
