@@ -56,40 +56,53 @@ class MassEmailController extends Controller {
 		{
 			case 'test':
 				// $users = DB::select("SELECT CONCAT(U.FirstName, ' ', U.LastName) AS Name, U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login LIKE 'eddie@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE SendNewsletter <> 'N')");
-				$users = DB::select("SELECT CONCAT(U.FirstName, ' ', U.LastName) AS Name, U.* FROM Users AS U WHERE ID = 54790");
+				$users = DB::select("SELECT CONCAT(U.FirstName, ' ', U.LastName) AS Name, U.* FROM Users AS U WHERE ID = 152002");
 
 
 				// dd($users);
 				// SELECT U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
 				foreach($users as $user)
 				{	
-						 
-					Mail::queue(['emails.hemi2.base','emails.hemi2.Expired_Hemi_Admins_PlainTextEmail'], ['image' => 'Expired_CAHemi_Admins'], function($message) use ($user)
+					Mail::send('emails.hemi2.careminderEmail',['name'=>$user->Name], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
-			            $message->subject('NEW Canadian Hemispheres 2.0, Just Released!');
+			            $message->subject('Canadian Hemispheres 2.0 is here!');
 			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
 			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'cahemi2');
 
 			        });
-
-			        // Mail::send('emails.hemi2.base', ['name'=>$user->Name,'image' => 'Current_CAHemi_Admins'], function($message) use ($user)
-			        // {
-			        //     $message->to($user->Login, $user->Name);
-			        //     $message->subject('Canadian Hemispheres 2.0 coming soon!');
-			        //     $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
-			        //     $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'cahemi2');
-
-			        // });
 				}
-				return redirect('/email')->with('message','Test email successfully sent'); 
+				return redirect('/email')->with('message','test email successfully sent'); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			case 'CAhemiAdmins':
 				$users = DB::select("SELECT CONCAT(U.FirstName, ' ', U.LastName) AS Name, U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 6 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE SendNewsletter <> 'N')");
 				// dd($users);
 				// SELECT U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
 				foreach($users as $user)
 				{	
-					Mail::queue(['emails.hemi2.base','emails.hemi2.Current_Hemi_Admins_PlainTextEmail'], ['image' => 'Current_CAHemi_Admins'], function($message) use ($user)
+					Mail::queue('emails.hemi2.base','emails.hemi2.Current_Hemi_Admins_PlainTextEmail', ['name'=>$user->Name], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
 			            $message->subject('Canadian Hemispheres 2.0 coming soon!');
@@ -100,17 +113,17 @@ class MassEmailController extends Controller {
 				}
 				return redirect('/email')->with('message','hemiAdmins email successfully sent'); 
 			case 'hemiAdminsReminder':
-				$users = DB::select("SELECT CONCAT(U.FirstName, ' ', U.LastName) AS Name, U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE SendNewsletter <> 'N')");
+				$users = DB::select("SELECT CONCAT(U.FirstName, ' ', U.LastName) AS Name, U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 6 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE SendNewsletter <> 'N')");
 				// dd($users);
 				// SELECT U.Login FROM Users AS U WHERE U.ID IN (SELECT OA.UserID FROM OrganizationAdmins AS OA WHERE OrganizationID IN (SELECT DISTINCT(L.OrganizationID) FROM Licenses AS L INNER JOIN LicensePeriods AS LP ON LP.LicenseID = L.ID WHERE L.ProductID = 2 AND LP.StartDate < NOW() AND LP.EndDate > NOW() AND L.OrganizationID <> 2 ) ) AND U.Login REGEXP '^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$'AND U.Login NOT LIKE '%@apex.com'AND U.Login NOT LIKE '%@apexinnovations.com'AND U.ID NOT IN (SELECT UserID FROM UserWebsitePreferences WHERE queueNewsletter <> 'N') 
 				foreach($users as $user)
 				{	
-					Mail::queue('emails.hemi2.reminderEmail',['name'=>$user->Name], function($message) use ($user)
+					Mail::queue('emails.hemi2.careminderEmail',['name'=>$user->Name], function($message) use ($user)
 			        {
 			            $message->to($user->Login, $user->Name);
-			            $message->subject('Hemispheres 2.0 is here!');
+			            $message->subject('Canadian Hemispheres 2.0 is here!');
 			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
-			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'fnyhc');
+			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'cahemi2');
 
 			        });
 				}
