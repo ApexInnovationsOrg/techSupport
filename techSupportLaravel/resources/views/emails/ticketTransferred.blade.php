@@ -10,7 +10,6 @@ a{
     text-decoration:none;
 }
 </style>
-
   <div style="margin:14pt 0 18.75pt 0; font-size:16px">Ticket transferred to you.</div>
   <ol>
     <li>Call (337)216-4599</li>
