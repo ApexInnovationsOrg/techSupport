@@ -104,7 +104,7 @@ class EmailParser extends BasicObject {
     }   
     static public function parse()
     {
-        $mailbox = new ImapMailbox('{mail.apexinnovations.com:993/imap/ssl}INBOX', 'apex\techSupport', '2dZSUGqc1tPCXYXP4yzk','../voicemails');
+        $mailbox = new ImapMailbox('{outlook.office365.com:993/imap/ssl}INBOX', 'supportemails@apexinnovations.com', '2dZSUGqc1tP','');
 
         $mails = array();
         $mailsIds = $mailbox->searchMailBox('ALL');
