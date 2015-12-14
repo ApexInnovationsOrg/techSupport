@@ -21,6 +21,8 @@ use HipchatNotifier;
 use PhpImap\Mailbox as ImapMailbox;
 use PhpImap\IncomingMail;
 use PhpImap\IncomingMailAttachment;
+use Lame\Lame;
+use Lame\Settings;
 
 
 class EmailParser extends BasicObject {
@@ -104,7 +106,7 @@ class EmailParser extends BasicObject {
     }   
     static public function parse()
     {
-        $mailbox = new ImapMailbox('{outlook.office365.com:993/imap/ssl}INBOX', 'supportemails@apexinnovations.com', '2dZSUGqc1tP','');
+        $mailbox = new ImapMailbox('{outlook.office365.com:993/imap/ssl}INBOX', 'supportemails@apexinnovations.com', '2dZSUGqc1tP','../voicemails');
 
         $mails = array();
         $mailsIds = $mailbox->searchMailBox('ALL');
@@ -172,10 +174,27 @@ class EmailParser extends BasicObject {
                 }
                 $fileNameParts = $mail->getAttachments();
                 $fileNameParts = reset($fileNameParts);
+                // encoding type
+                $encoding = new Settings\Encoding\Preset();
+                $encoding->setType(Settings\Encoding\Preset::TYPE_STANDARD);
+
+                // lame settings
+                $settings = new Settings\Settings($encoding);
+
+                // lame wrapper
+                $lame = new Lame('/usr/bin/lame', $settings);
+
                 $fileName = null;
                 if(gettype($fileNameParts) === 'object')
                 {
                     $fileName = $message->uid . '_' . $fileNameParts->id . '_' . $fileNameParts->name;
+                    $directoryAndFile = str_replace('techSupport','voicemails/',getcwd()) . $fileName;
+                    
+                    $lame->encode($directoryAndFile,str_replace('.wav','.mp3',$directoryAndFile), function($inputfile, $outputfile) 
+                    {
+                        unlink($inputfile);
+                    }
+                    );
                 }
 
 
@@ -295,7 +314,7 @@ class EmailParser extends BasicObject {
 
         Mail::queue('emails.ticketTransferred', ['transferTo'=> $employeeTransferredTo, 'transferredFrom' => $name, 'codeName'=>$codeName, 'time' => $time, 'reason' => $reason, 'key'=>$key], function($message) use ($employeeEmail, $employeeName, $name, $codeName) 
         {
-            $message->bcc($employeeEmail, $employeeName)->subject('TST: ' . $name . ' has transferred "' . $codeName . '" to you');
+            $message->bcc($employeeEmail, $employeeName)->subject('TST: ' . $name . ' has transferred "' . $codeName . '"');
         });
 
          $textMessage = "$name transferred $codeName to you. Reason: $reason :: https://apexinnovations.com/admin/techSupport/showTicket?key=" . $key; 
