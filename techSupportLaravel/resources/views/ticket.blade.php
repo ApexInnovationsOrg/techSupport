@@ -85,9 +85,9 @@
 							@if(strpos($ticket->VoicemailFileName,'.wav') || strpos($ticket->VoicemailFileName,'.mp3') !== false)
 							<div class="form-group">
 							  <label class="col-md-4 control-label" for="textarea" placeholder="Notes...">Voicemail Left:</label>
-							  <div class="col-md-4">                     
+							  <div class="col-md-4">
 							    <audio controls style="width:100%">
-								  <source src={{ url("../voicemails/$ticket->VoicemailFileName") }} type="audio/{{ strpos($ticket->VoicemailFileName,'.mp3') === true ? 'mp3' : 'wav' }}">
+								  <source src={{ url("../voicemails/$ticket->VoicemailFileName") }} type="audio/{{ strpos($ticket->VoicemailFileName,'.mp3') !== false ? 'mp3' : 'wav' }}">
 								Your browser does not support the audio element.
 								</audio>
 							  </div>
