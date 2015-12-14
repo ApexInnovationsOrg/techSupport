@@ -195,6 +195,7 @@ class EmailParser extends BasicObject {
                         unlink($inputfile);
                     }
                     );
+                    $fileName = str_replace('.wav','.mp3',$fileName);
                 }
 
 
