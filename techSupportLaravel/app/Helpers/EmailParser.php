@@ -189,13 +189,15 @@ class EmailParser extends BasicObject {
                 {
                     $fileName = $message->uid . '_' . $fileNameParts->id . '_' . $fileNameParts->name;
                     $directoryAndFile = str_replace('techSupport','voicemails/',getcwd()) . $fileName;
-                    
-                    $lame->encode($directoryAndFile,str_replace('.wav','.mp3',$directoryAndFile), function($inputfile, $outputfile) 
+                    if(substr($fileName,-4) == ".wav") //make sure that is a wav file
                     {
-                        unlink($inputfile);
+                        $lame->encode($directoryAndFile,str_replace('.wav','.mp3',$directoryAndFile), function($inputfile, $outputfile) 
+                        {
+                            unlink($inputfile);
+                        }
+                        );
+                        $fileName = str_replace('.wav','.mp3',$fileName);
                     }
-                    );
-                    $fileName = str_replace('.wav','.mp3',$fileName);
                 }
 
 
