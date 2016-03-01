@@ -233,7 +233,7 @@ class EmailParser extends BasicObject {
         if($spam)
         {
           
-            $url = url('/admin/techSupport/iamnotspam/?key=' . $key);
+            $url = url('/iamnotspam/?key=' . $key);
             Mail::send('emails.spamCheck',['url'=>$url], function($message) use ($mail)
             {
                 $message->to($mail->fromAddress, $mail->fromName)->subject('Read me please!');
