@@ -125,14 +125,16 @@ class MassEmailController extends Controller {
 					
 				foreach($users as $user)
 				{	
-					Mail::send('emails.impulse2TQ.careminderEmail',['name'=>$user->Name], function($message) use ($user)
-			        {
-			            $message->to($user->Login, $user->Name);
-			            $message->subject('imPULSE 2.0 Test Question Analysis and Adjustments');
-			            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
-			            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'impulsetq');
+					if (filter_var($user->Login, FILTER_VALIDATE_EMAIL)) {
+						Mail::queue('emails.impulse2TQ.careminderEmail',['name'=>$user->Name], function($message) use ($user)
+				        {
+				            $message->to($user->Login, $user->Name);
+				            $message->subject('imPULSE 2.0 Test Question Analysis and Adjustments');
+				            $message->from('info@apexinnovations.com', 'Your friends at Apex Innovations');
+				            $message->getHeaders()->addTextHeader('X-Mailgun-Campaign-Id', 'impulsetq');
 
-			        });
+				        });
+				    }
 				}
 
 				return redirect('/email')->with('message','test email successfully sent'); 
