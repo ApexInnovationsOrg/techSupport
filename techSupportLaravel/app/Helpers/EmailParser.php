@@ -321,12 +321,13 @@ class EmailParser extends BasicObject {
         });
 
          $textMessage = "$name transferred $codeName to you. Reason: $reason :: https://apexinnovations.com/admin/techSupport/showTicket?key=" . $key; 
+         $textMessageHipchat = "$name transferred $codeName to $employeeName. Reason: $reason :: https://apexinnovations.com/admin/techSupport/showTicket?key=" . $key; 
         Mail::queue('emails.blank',['textMessage' => $textMessage], function($message) use ($employeeCellPhone) 
         {
             $message->bcc($employeeCellPhone, 'Tech Support')->subject('Ticket Transferred');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,['color'=>'yellow']);
+        HipchatNotifier::message($textMessageHipchat,['color'=>'yellow']);
     }
 
 
