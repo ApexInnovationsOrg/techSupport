@@ -28,8 +28,9 @@
 					<div>	
 						<ol>
 							<li><a href={{ url('email/test') }}>Test</a></li>
-							<li><a href={{ url('email/imp2admin') }}>Impulse 2.0 test questions admins</a></li>
-							<li><a href={{ url('email/imp2user') }}>Impulse 2.0 test questions users</a></li>
+							<li><a href={{ url('email/sepsis') }}>All Users</a></li>
+<!-- 							<li><a href={{ url('email/imp2admin') }}>Impulse 2.0 test questions admins</a></li>
+							<li><a href={{ url('email/imp2user') }}>Impulse 2.0 test questions users</a></li> -->
 							<!-- <li><a href={{ url('email/CAhemiAdmins') }}>hemiAdmins</a></li>
 							<li><a href={{ url('email/hemiStore') }}>hemiStore</a></li>
 							<li><a href={{ url('email/expCAHemiAdmins') }}>expHemiAdmins</a></li>
