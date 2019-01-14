@@ -18,6 +18,9 @@ use App\Users;
 use Mail;
 use Auth;
 use HipchatNotifier;
+use App\Notifications\SlackNotifier;
+
+
 use PhpImap\Mailbox as ImapMailbox;
 use PhpImap\IncomingMail;
 use PhpImap\IncomingMailAttachment;
@@ -74,13 +77,13 @@ class EmailParser extends BasicObject {
         // {
         //     $message->bcc($techSupport, 'Tech Support')->subject('TST: "' . $codeName . '" created');
         // }); 
-        $textMessage = "$codeName created. Type: $type. Claim at ";
-        Mail::send(['text'=>'emails.blank'],['textMessage' => $textMessage], function($message) use ($techSupportCell) 
-        {
-            $message->bcc(['2819140203@vzwpix.com','eddie@apexinnovations.com'], 'Tech Support')->subject('Ticket Created');
-            $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
+        // $textMessage = "$codeName created. Type: $type. Claim at ";
+        // Mail::queue(['text'=>'emails.blank'],['textMessage' => $textMessage], function($message) use ($techSupportCell) 
+        // {
+        //     $message->bcc(['eddie@apexinnovations.com'], 'Tech Support test')->subject('Ticket Created');
+        //     $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
              
-        });
+        // });
         // Mail::raw("$codeName created.\n Type: test.\n Claim at " . url('admin/techSupport/startTicket/?key='.$key), function($message) use ($techSupport) 
         // {
         //     $message->bcc($techSupport, 'Tech Support')->subject('Ticket Created');
@@ -95,7 +98,7 @@ class EmailParser extends BasicObject {
         // dd($obj->data->url);
         // $json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
         // $obj = json_decode($json);
-
+        SlackNotifier::message('https://media.giphy.com/media/LUIvcbR6yytz2/giphy.gif',env('SLACK_WEBHOOK_CAGE'));
         // HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
         // HipchatNotifier::message('Gif of the hour: '  . $obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
         // HipchatNotifier::message("<b>Gif of the hour</b><br /><a href='" . $obj->data[array_rand($obj->data)]->images->original->url . "'>" . $obj->data[array_rand($obj->data)]->images->original->url . "</a>",['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
@@ -106,7 +109,7 @@ class EmailParser extends BasicObject {
     }   
     static public function parse()
     {
-        $mailbox = new ImapMailbox('{outlook.office365.com:993/imap/ssl}INBOX', 'supportemails@apexinnovations.com', 'Yata6059','../voicemails');
+        $mailbox = new ImapMailbox('{outlook.office365.com:993/imap/ssl}INBOX', 'supportemails@apexinnovations.com', '2dZSUGqc1tP','../voicemails');
 
         $mails = array();
         $mailsIds = $mailbox->searchMailBox('ALL');
@@ -233,7 +236,7 @@ class EmailParser extends BasicObject {
         if($spam)
         {
           
-            $url = url('/iamnotspam/?key=' . $key);
+            $url = url('iamnotspam/?key=' . $key);
             Mail::send('emails.spamCheck',['url'=>$url], function($message) use ($mail)
             {
                 $message->to($mail->fromAddress, $mail->fromName)->subject('Read me please!');
@@ -268,7 +271,7 @@ class EmailParser extends BasicObject {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket Created');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,['color'=>'red']);
+        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 
     static public function emailTicketStarted($codeName,$name,$startTime,$validated = 'Y')
@@ -288,7 +291,7 @@ class EmailParser extends BasicObject {
             $message->bcc($techSupportCell, 'Tech Support')->subject($validated === 'N' ? 'Spam ticket claimed' : 'Ticket claimed');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,['color'=>'yellow']);
+        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 
     static public function emailTicketUnclaimed($codeName,$name,$time,$reason,$key)
@@ -306,7 +309,7 @@ class EmailParser extends BasicObject {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket UNclaimed');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,['color'=>'red']);
+        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 
     static public function emailTicketTransferred($employeeTransferredTo,$codeName,$name,$time,$reason,$key)
@@ -327,7 +330,7 @@ class EmailParser extends BasicObject {
             $message->bcc($employeeCellPhone, 'Tech Support')->subject('Ticket Transferred');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessageHipchat,['color'=>'yellow']);
+        HipchatNotifier::message($textMessageHipchat,env('SLACK_WEBHOOK_IT'));
     }
 
 
@@ -348,7 +351,7 @@ class EmailParser extends BasicObject {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket completed');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,['color'=>'green']);
+        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 
     static public function nameGenerator()
@@ -367,7 +370,7 @@ class EmailParser extends BasicObject {
             $message->to($owner->CellPhone, $owner->FirstName . ' ' . $owner->LastName)->subject('Taunt Received');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,['color'=>'purple']);
+        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 }
 EmailParser::init();//making a quasi constructor to set where the emails get sent based on the env

@@ -33,8 +33,8 @@ class Kernel extends ConsoleKernel {
 			
 				$json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
 		        $obj = json_decode($json);
-		        HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
-	       		HipchatNotifier::message($obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
+		        HipchatNotifier::message('Gif of the hour',env('SLACK_WEBHOOK_CAGE'));
+	       		HipchatNotifier::message($obj->data[array_rand($obj->data)]->images->original->url,env('SLACK_WEBHOOK_CAGE'));
 
 			})->weekdays()->at($time);
       	}
