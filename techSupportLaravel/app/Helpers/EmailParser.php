@@ -17,7 +17,7 @@ use App\Adjective;
 use App\Users;
 use Mail;
 use Auth;
-use HipchatNotifier;
+
 use App\Notifications\SlackNotifier;
 
 
@@ -93,18 +93,11 @@ class EmailParser extends BasicObject {
         // {
         //     $message->to('eddie@apexinnovations.com')->subject('Read me please!');
         // });
-        // HipchatNotifier::message('this message is coming from laravel!',['queue'=>true]);
         
         // dd($obj->data->url);
         // $json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
         // $obj = json_decode($json);
         SlackNotifier::message('https://media.giphy.com/media/LUIvcbR6yytz2/giphy.gif',env('SLACK_WEBHOOK_CAGE'));
-        // HipchatNotifier::message('Gif of the hour',['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
-        // HipchatNotifier::message('Gif of the hour: '  . $obj->data[array_rand($obj->data)]->images->original->url,['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
-        // HipchatNotifier::message("<b>Gif of the hour</b><br /><a href='" . $obj->data[array_rand($obj->data)]->images->original->url . "'>" . $obj->data[array_rand($obj->data)]->images->original->url . "</a>",['room'=>'the cage','color'=>'gray','from'=>"GOTH"]);
-        // HipchatNotifier::message('Job: ' . 'asdf',['queue'=>false,'room'=>'the cage','color'=>'red']);
-        // HipchatNotifier::message('Data: ' . 'adsf',['queue'=>false,'room'=>'the cage','color'=>'red']);
-        // dd(HipchatNotifier);
         return 'sent';
     }   
     static public function parse()
@@ -271,7 +264,7 @@ class EmailParser extends BasicObject {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket Created');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
+        SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 
     static public function emailTicketStarted($codeName,$name,$startTime,$validated = 'Y')
@@ -291,7 +284,7 @@ class EmailParser extends BasicObject {
             $message->bcc($techSupportCell, 'Tech Support')->subject($validated === 'N' ? 'Spam ticket claimed' : 'Ticket claimed');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
+        SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 
     static public function emailTicketUnclaimed($codeName,$name,$time,$reason,$key)
@@ -309,7 +302,7 @@ class EmailParser extends BasicObject {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket UNclaimed');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
+        SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 
     static public function emailTicketTransferred($employeeTransferredTo,$codeName,$name,$time,$reason,$key)
@@ -330,7 +323,7 @@ class EmailParser extends BasicObject {
             $message->bcc($employeeCellPhone, 'Tech Support')->subject('Ticket Transferred');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessageHipchat,env('SLACK_WEBHOOK_IT'));
+        SlackNotifier::message($textMessageHipchat,env('SLACK_WEBHOOK_IT'));
     }
 
 
@@ -351,7 +344,7 @@ class EmailParser extends BasicObject {
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket completed');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
+        SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 
     static public function nameGenerator()
@@ -370,7 +363,7 @@ class EmailParser extends BasicObject {
             $message->to($owner->CellPhone, $owner->FirstName . ' ' . $owner->LastName)->subject('Taunt Received');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        HipchatNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
+        SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));
     }
 }
 EmailParser::init();//making a quasi constructor to set where the emails get sent based on the env
