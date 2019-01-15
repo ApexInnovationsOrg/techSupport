@@ -32,12 +32,12 @@ class Handler extends ExceptionHandler {
 			if($val['function'] == 'include' || $val['function'] == 'include_once' || $val['function'] == 'require_once' || $val['function'] == 'require'){
 				$backtrace .= '#' . $key . ' ' . $val['function'] . '(' . $val['args'][0] . ') called at [' . $val['file'] . ':' . $val['line'] . ']<br />';
 			}else{
-				$backtrace .= '#' . $key . ' ' . $val['function'] . '() called at [' . $val['file'] . ':' . $val['line'] . ']<br />';
+				// $backtrace .= '#' . $key . ' ' . $val['function'] . '() called at [' . $val['file'] . ':' . $val['line'] . ']<br />';
 			}
 		}
 		
 		$get = $post = $session = '';
-		foreach ($_GET as $key => $value) $get .= output_keyvalues($key, $value);
+		// foreach ($_GET as $key => $value) $get .= output_keyvalues($key, $value);
 		foreach ($_POST as $key => $value) $post .= output_keyvalues($key, $value);
 		foreach (Session::all() as $key => $value){
 
