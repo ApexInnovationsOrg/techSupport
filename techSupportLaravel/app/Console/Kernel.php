@@ -2,7 +2,8 @@
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use HipchatNotifier;
+use App\Notifications\SlackNotifier;
+
 use Log;
 class Kernel extends ConsoleKernel {
 
@@ -31,10 +32,13 @@ class Kernel extends ConsoleKernel {
 	        $schedule->call(function()
 			{
 			
-				$json = file_get_contents('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
+				$json = file_get_contents('https://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC');
 		        $obj = json_decode($json);
-		        HipchatNotifier::message('Gif of the hour',env('SLACK_WEBHOOK_CAGE'));
-	       		HipchatNotifier::message($obj->data[array_rand($obj->data)]->images->original->url,env('SLACK_WEBHOOK_CAGE'));
+		        $gifURL = $obj->data[array_rand($obj->data)]->images->original->url;
+		        // SlackNotifier::message('Gif of the hour',env('SLACK_WEBHOOK_CAGE'));
+
+	       		SlackNotifier::message('Gif of the hour
+' . $gifURL,env('SLACK_WEBHOOK_CAGE'));
 
 			})->weekdays()->at($time);
       	}
