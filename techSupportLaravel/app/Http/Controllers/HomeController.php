@@ -8,6 +8,7 @@ use App\Users;
 use App\Employee;
 use App\SupportTicket;
 use App\SupportTicketPayout;
+use App\SupportNotices;
 use Illuminate\Http\Request as HttpRequest;
 
 class HomeController extends Controller {
@@ -278,16 +279,12 @@ class HomeController extends Controller {
 			$UnclaimedTicketsFormatted = json_encode($response3);
 		}
 
-	
-		// dd($UnclaimedTicketsFormatted);
 		return view('stats',['admin'=>$admin,'tickets'=>$formattedTickets,'unclaimedTickets'=>$UnclaimedTicketsFormatted,'bounty'=>$formattedBounties]);
 	}	
 	public function payOut()
 	{
-				$payOut = DB::select(DB::raw("SELECT CONCAT(E.FirstName, ' ', E.LastName) AS Person, E.ID AS 'EmployeeID', COUNT(*) AS 'TotalTickets', AVG(LengthOfCall) AS 'AverageTime', SUM(LengthOfCall) AS 'TotalTime', SUM(IF(LengthOfCall > 10, BaseRate + ((LengthOfCall - 10)/10 * TimeMultiplier), BaseRate) ) AS PayOut FROM SupportTickets AS ST JOIN Employees AS E on ST.EmployeeID = E.ID JOIN SupportTypes AS STT ON STT.ID = ST.SupportTypeID WHERE BountyClaimed = 'Y' AND Paid = 'N' GROUP BY E.ID"),array());
+		$payOut = DB::select(DB::raw("SELECT CONCAT(E.FirstName, ' ', E.LastName) AS Person, E.ID AS 'EmployeeID', COUNT(*) AS 'TotalTickets', AVG(LengthOfCall) AS 'AverageTime', SUM(LengthOfCall) AS 'TotalTime', SUM(IF(LengthOfCall > 10, BaseRate + ((LengthOfCall - 10)/10 * TimeMultiplier), BaseRate) ) AS PayOut FROM SupportTickets AS ST JOIN Employees AS E on ST.EmployeeID = E.ID JOIN SupportTypes AS STT ON STT.ID = ST.SupportTypeID WHERE BountyClaimed = 'Y' AND Paid = 'N' GROUP BY E.ID"),array());
 
-		// $payOut = DB::table('SupportTickets')
-		// ->select(DB::raw("CONCAT(E.FirstName, ' ', E.LastName) AS Person, COUNT(*) AS 'Total Tickets', AVG(LengthOfCall) AS 'Average Time', SUM(LengthOfCall) AS 'Total Time', SUM(IF(LengthOfCall > 10, BaseRate + ((LengthOfCall - 10)/10 * TimeMultiplier), BaseRate) ) AS PayOut FROM SupportTickets AS ST JOIN Employees AS E on ST.EmployeeID = E.ID JOIN SupportTypes AS STT ON STT.ID = ST.SupportTypeID WHERE Completed IS NOT null AND Paid = 'N' GROUP BY E.ID"))->get();
 		$payOutArr = [];
 			foreach($payOut as $pay)
 			{
@@ -312,6 +309,58 @@ class HomeController extends Controller {
 		$tickets = SupportTicket::where('EmployeeID',$request->EmployeeID)->whereNotNull('Completed')->update(['Paid'=>'Y','SupportTicketPayoutID'=>$SupportTicketPayout->ID]);
 		
 		return redirect('/payOut')->with('message',"Successfully paid $employee->FirstName: \$$request->amount");
+	}
+	
+	public function noticeEditor()
+	{
+		$supportNotices = SupportNotices::get();
+		$notices = array();
+		
+		foreach($supportNotices AS $supportNotice){
+			$notices[] = array('id'=>$supportNotice->ID,'notice'=>$supportNotice->Notice,'employeeID'=>$supportNotice->EmployeeID,'startDate'=>$supportNotice->StartDate,'endDate'=>$supportNotice->EndDate,'active'=>$supportNotice->Active);
+		}		
+		
+		return view('noticeEditor',['notices'=>json_encode($notices)]);
+	}
+	
+	public function noticeEditorSaveAndDelete(HttpRequest $request)
+	{				
+		$formType = $request->formAction;
+		
+		if($formType == 'save'){
+			$noticeID = $this->noticeEditorSave($request);
+			
+			if($noticeID > 0){
+				return redirect('/noticeEditor')->with('message',"Successfully saved notice")->with('selection',$noticeID);
+			}
+		}elseif($formType == 'delete'){
+			$deleted = $this->noticeEditorDelete($request);
+			
+			if($deleted){			
+				return redirect('/noticeEditor')->with('message',"Notice successfully deleted");
+			}
+		}	
+		
+		return redirect('/noticeEditor')->with('message',"Error modifying notice!");
+	}
+	
+	private function noticeEditorSave($request)
+	{
+		$employee = Auth::user();
+		$active = ($request->noticeActive == "on" ? "Y" : "N");
+		$startDate = ($request->noticeStartDate != '' ? $request->noticeStartDate : NULL);
+		$endDate = ($request->noticeEndDate != '' ? $request->noticeEndDate : NULL);			
+		
+		$supportNotice = SupportNotices::updateOrCreate(['ID'=>$request->noticeID],['Notice'=>$request->formValue,'StartDate'=>$startDate,'EndDate'=>$endDate,'EmployeeID'=>$employee->ID,'Active'=>$active]);
+		
+		return $supportNotice->ID;
+	}
+	
+	private function noticeEditorDelete($request)
+	{
+		$supportNotice = SupportNotices::find($request->noticeID);
+		
+		return $supportNotice->delete();
 	}
 
 }

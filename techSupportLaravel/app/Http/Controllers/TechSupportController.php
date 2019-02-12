@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 
 
+
 // use PhpImap\Mailbox as ImapMailbox;
 // use PhpImap\IncomingMail;
 // use PhpImap\IncomingMailAttachment;
@@ -37,7 +38,9 @@ class TechSupportController extends Controller {
 	 */
 	public function __construct()
 	{
+
 		$this->middleware('auth');
+
 	}
 	/**
 	 * Display a listing of the resource.
@@ -69,6 +72,7 @@ class TechSupportController extends Controller {
 	 */
 	public function startTicket()
 	{
+
 		$user = Auth::user();
 		$key = Input::get('key');
 		$userName = $user->FirstName . ' ' . $user->LastName;

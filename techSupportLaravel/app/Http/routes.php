@@ -16,6 +16,8 @@ Route::get('home', 'HomeController@index');
 Route::get('stats', 'HomeController@stats');
 Route::get('payOut','HomeController@payOut');
 Route::post('pay','HomeController@pay');
+Route::get('noticeEditor','HomeController@noticeEditor');
+Route::post('noticeEditorSaveAndDelete','HomeController@noticeEditorSaveAndDelete');
 
 Route::get('parse', 'WebAPI@parse');
 Route::get('testParse', 'WebAPI@testParse');
@@ -34,6 +36,10 @@ Route::get('userJSON','TechSupportController@userJSON');
 Route::any('email','MassEmailController@index');
 Route::get('email/{emailType?}','MassEmailController@sendEmail');
 
+Route::post('submitTicket','WebsiteSubmissionController@submitTicket');
+Route::get('notices','WebsiteSubmissionController@notices');
+Route::get('commonQuestions','WebsiteSubmissionController@commonQuestions');
+Route::get('products','WebsiteSubmissionController@products');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
