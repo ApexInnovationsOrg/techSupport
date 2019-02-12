@@ -1,0 +1,19 @@
+.notice {
+  padding: 1em;
+}
+.noticeForm {
+  padding-right: 2em;
+  float: left;
+}
+.ql-toolbar {
+  background-color: #e3e6eb;
+}
+.ql-editor {
+  background-color: #f8f8f8;
+}
+.panel-default > h3 {
+  margin-left: 0.5em;
+}
+#noticeSubmit {
+  text-align: right;
+}
