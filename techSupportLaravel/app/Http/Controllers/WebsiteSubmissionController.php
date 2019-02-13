@@ -15,7 +15,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
 
-
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -189,7 +188,8 @@ class WebsiteSubmissionController extends Controller
 		
 		$url = 'https://apexinnovations.com/admin/techSupport/admin/techSupport/startTicket/?key=' . $key;
 		
-		Mail::queue('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url], function($message) use ($codeName, $techSupport)  
+		Mail::queue('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
+		// Mail::send('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
         {
             $message->bcc($techSupport, 'Tech Support')->subject('TST: "' . $codeName . '" created');
         });
@@ -209,11 +209,11 @@ class WebsiteSubmissionController extends Controller
 	static public function emailUserReceipt($emailAddress,$contactInfo,$userName,$description,$problemOverview)
 	{			
 		Mail::queue('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
+		// Mail::send('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
         {
             $message->bcc($emailAddress, 'Tech Support')->subject('Receipt: ATTN Tech Support');
         });		
 	}
-	
 	
 	static public function createTicket($contactInfo,$userName,$description,$problemOverview,$contactPreference,$browserInfo)
 	{

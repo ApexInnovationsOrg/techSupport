@@ -250,7 +250,7 @@ class EmailParser extends BasicObject {
         $techSupport = self::$techSupport;   
         $url = 'https://apexinnovations.com/admin/techSupport/admin/techSupport/startTicket/?key=' . $key;
         // dd($url);
-        Mail::queue('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url], function($message) use ($codeName, $techSupport,$phone) 
+        Mail::queue('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => $type], function($message) use ($codeName, $techSupport,$phone) 
         {
             $message->bcc($techSupport, 'Tech Support')->subject('TST: "' . $codeName . '" created');
         });

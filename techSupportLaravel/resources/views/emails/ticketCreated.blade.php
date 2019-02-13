@@ -11,7 +11,7 @@ a{
 }
 </style>
   <p style="font-size:20px">Dearest tech support members,</p>
-  <div style="margin:14pt 0 18.75pt 0; font-size:16px">Someone left a tech support voicemail. And a support ticket code name <b>{{ $codeName }}</b> has been created. Get on it!</div>
+  <div style="margin:14pt 0 18.75pt 0; font-size:16px">A support ticket code name <b>{{ $codeName }}</b> has been created.<br/><br/>Ticket Type: {{ $ticketType }}.</div>
   <table border="1" cellspacing="0" cellpadding="0" style="background-color:#337ab7;border-style:none none solid none;border-bottom-width:1.5pt;border-bottom-color:#2e6da4; text-align:center;">
     <tbody>
         <tr>
