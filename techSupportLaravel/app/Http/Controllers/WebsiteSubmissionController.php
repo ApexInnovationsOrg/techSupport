@@ -214,6 +214,7 @@ class WebsiteSubmissionController extends Controller
         });		
 	}
 	
+	
 	static public function createTicket($contactInfo,$userName,$description,$problemOverview,$contactPreference,$browserInfo)
 	{
 		$supportTicket = new SupportTicket;
