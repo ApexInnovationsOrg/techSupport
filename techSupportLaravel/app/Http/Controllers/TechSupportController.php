@@ -142,13 +142,12 @@ class TechSupportController extends Controller {
 		{
 			$ticket->formattedUserName = $user->LastName . ', ' . $user->FirstName . ' :: ' . $user->Login;
 		} 
-		$supportReplyEmail = SupportReplyEmail::where('SupportTicketID','=',$ticket->ID);
-		$replyEmail = false;
-		if(count($supportReplyEmail) > 0)
+		$supportReplyEmail = SupportReplyEmail::where('SupportTicketID','=',$ticket->ID)->first();
+		$replyEmail = 0;
+		if($supportReplyEmail)
 		{
-			$replyEmail = true;
-		}
-		
+			$replyEmail = $supportReplyEmail->ID;
+		}		
 		
 		return view('ticket',[
 			'ticket'=>$ticket,
@@ -205,7 +204,7 @@ class TechSupportController extends Controller {
 			Mail::queue('emails.ticketReply', ['ticketEmail' => $ticket->EmailMessage,'replyEmail' => $emailReply,'replyAdminName' => $owner->FirstName . " " . $owner->LastName], function($message) use ($ticket,$owner)  
 			// Mail::send('emails.ticketReply', ['ticketEmail' => $ticket->EmailMessage,'replyEmail' => $emailReply,'replyAdminName' => $owner->FirstName . " " . $owner->LastName], function($message) use ($ticket,$owner)  
 			{
-				$message->from($owner->Email,'Tech Support')->to($ticket->EmailAddress)->bcc($owner->Email)->subject('ATTN: Tech Support');
+				$message->from($owner->Email,'Tech Support')->to($ticket->EmailAddress,'User')->bcc($owner->Email)->subject('ATTN: Tech Support');
 			});			
 			
 			return $this->showTicket()->withMessages(["Email sent!"]);			
