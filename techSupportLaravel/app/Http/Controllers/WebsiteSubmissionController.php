@@ -107,7 +107,7 @@ class WebsiteSubmissionController extends Controller
 				$supportTicket = WebsiteSubmissionController::createTicket($contactInfo,$userName,$description,$problemOverview,$contactPreference,$browserInfo);		
 				
 				if(!self::$debug){
-					// WebsiteSubmissionController::emailTechSupport($supportTicket->CodeName, $supportTicket->Key);
+					WebsiteSubmissionController::emailTechSupport($supportTicket->CodeName, $supportTicket->Key);
 					
 					if($supportTicket->EmailAddress != NULL){
 						WebsiteSubmissionController::emailUserReceipt($supportTicket->EmailAddress,$contactInfo,$userName,$description,$problemOverview);
@@ -188,8 +188,8 @@ class WebsiteSubmissionController extends Controller
 		
 		$url = 'https://apexinnovations.com/admin/techSupport/admin/techSupport/startTicket/?key=' . $key;
 		
-		// Mail::queue('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
-		Mail::send('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
+		Mail::queue('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
+		// Mail::send('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
         {
             $message->bcc($techSupport, 'Tech Support')->subject('TST: "' . $codeName . '" created');
         });
@@ -203,13 +203,13 @@ class WebsiteSubmissionController extends Controller
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket Created');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        // SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));		
+        SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));		
 	}
 	
 	static public function emailUserReceipt($emailAddress,$contactInfo,$userName,$description,$problemOverview)
 	{			
-		// Mail::queue('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
-		Mail::send('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
+		Mail::queue('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
+		// Mail::send('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
         {
             $message->bcc($emailAddress, 'Tech Support')->subject('ATTN: Tech Support');
         });		
