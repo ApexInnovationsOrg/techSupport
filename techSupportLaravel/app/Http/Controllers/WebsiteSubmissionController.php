@@ -107,7 +107,7 @@ class WebsiteSubmissionController extends Controller
 				$supportTicket = WebsiteSubmissionController::createTicket($contactInfo,$userName,$description,$problemOverview,$contactPreference,$browserInfo);		
 				
 				if(!self::$debug){
-					WebsiteSubmissionController::emailTechSupport($supportTicket->CodeName, $supportTicket->Key);
+					// WebsiteSubmissionController::emailTechSupport($supportTicket->CodeName, $supportTicket->Key);
 					
 					if($supportTicket->EmailAddress != NULL){
 						WebsiteSubmissionController::emailUserReceipt($supportTicket->EmailAddress,$contactInfo,$userName,$description,$problemOverview);
@@ -188,8 +188,8 @@ class WebsiteSubmissionController extends Controller
 		
 		$url = 'https://apexinnovations.com/admin/techSupport/admin/techSupport/startTicket/?key=' . $key;
 		
-		Mail::queue('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
-		// Mail::send('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
+		// Mail::queue('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
+		Mail::send('emails.ticketCreated', ['codeName' => $codeName, 'url' => $url, 'ticketType' => 'Contact Us'], function($message) use ($codeName, $techSupport)  
         {
             $message->bcc($techSupport, 'Tech Support')->subject('TST: "' . $codeName . '" created');
         });
@@ -203,15 +203,15 @@ class WebsiteSubmissionController extends Controller
             $message->bcc($techSupportCell, 'Tech Support')->subject('Ticket Created');
             $message->getHeaders()->addTextHeader('X-Mailgun-Native-Send', 'true');
         });
-        SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));		
+        // SlackNotifier::message($textMessage,env('SLACK_WEBHOOK_IT'));		
 	}
 	
 	static public function emailUserReceipt($emailAddress,$contactInfo,$userName,$description,$problemOverview)
 	{			
-		Mail::queue('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
-		// Mail::send('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
+		// Mail::queue('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
+		Mail::send('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
         {
-            $message->bcc($emailAddress, 'Tech Support')->subject('Receipt: ATTN Tech Support');
+            $message->bcc($emailAddress, 'Tech Support')->subject('ATTN: Tech Support');
         });		
 	}
 	
@@ -234,7 +234,7 @@ class WebsiteSubmissionController extends Controller
 				break;
 		}
 		
-		$supportTicket->EmailMessage = '<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40"><head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="Generator" content="Microsoft Word 12 (filtered medium)"> <style><!-- /* Font Definitions */ @font-face{font-family: "Cambria Math"; panose-1: 2 4 5 3 5 4 6 3 2 4;}@font-face{font-family: Calibri; panose-1: 2 15 5 2 2 2 4 3 2 4;}/* Style Definitions */ p.MsoNormal, li.MsoNormal, div.MsoNormal{margin: 0in; margin-bottom: .0001pt; font-size: 12.0pt; font-family: "Times New Roman", "serif";}a:link, span.MsoHyperlink{mso-style-priority: 99; color: blue; text-decoration: underline;}a:visited, span.MsoHyperlinkFollowed{mso-style-priority: 99; color: purple; text-decoration: underline;}p{mso-style-priority: 99; mso-margin-top-alt: auto; margin-right: 0in; mso-margin-bottom-alt: auto; margin-left: 0in; font-size: 12.0pt; font-family: "Times New Roman", "serif";}span.EmailStyle18{mso-style-type: personal-compose; font-family: "Calibri", "sans-serif";}.MsoChpDefault{mso-style-type: export-only; font-size: 10.0pt;}@page WordSection1{size: 8.5in 11.0in; margin: 1.0in 1.0in 1.0in 1.0in;}div.WordSection1{page: WordSection1;}--> </style> </head><body lang="EN-US" link="blue" vlink="purple"> <div class="WordSection1"> <p><span style="font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">Contact Information:</span>' . $contactInfo . ' <o:p></o:p> </p><p><span style="font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">Overview:</span>' . $problemOverview .' <o:p></o:p> </p><p><span style="font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">User Name:</span>' . $userName . ' <o:p></o:p> </p><p><span style="font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">Description:</span>' . $description . ' <o:p></o:p> </p><p><span style="font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">Browser Info:</span>' . $browserInfo . '<o:p></o:p></p></div></body></html>';
+		$supportTicket->EmailMessage = '<strong>Contact Information: </strong>' . $contactInfo . '<br/><br/><strong>Overview: </strong>' . $problemOverview . '<br/><br/><strong>User Name: </strong>' . $userName . '<br/><br/><strong>Description: </strong>' . $description . '<br/><br/><strong>Browser Info: </strong>' . $browserInfo;
 		
 		if(!self::$debug){
 			$supportTicket->save();

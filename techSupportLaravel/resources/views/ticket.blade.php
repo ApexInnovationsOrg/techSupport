@@ -48,6 +48,18 @@
 							</ul>
 						</div>
 					@endif
+					
+					@if (isset($messages) && count($messages) > 0)
+						<div class="alert alert-success">
+							<strong>Yay!</strong> Good things are happening.<br><br>							
+							<ul>
+								@foreach ($messages as $message)
+									<li>{!! $message !!}</li>
+								@endforeach
+							</ul>
+						</div>
+					@endif
+					
 					<div class="form-horizontal">
 						<fieldset>
 							@if($ticket->Completed == null || isset($_GET['details']))
@@ -65,7 +77,7 @@
 								<label class="col-md-4 control-label">The office phone number:</label>
 								<div class="col-md-4 top-buffer">
 									<a href="tel:3372164599">(337) 216-4599</a>&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-									<a href="tel:3372164599,,,9,9988#">Callbridge</a>
+									<a href="tel:3372164599,,,9,30942353#">Callbridge</a>
 								</div>
 							</div>
 							@if($ticket->formattedUserName !== null)
@@ -82,6 +94,18 @@
 							    {!! nl2br($ticket->EmailMessage) !!}
 							  </div>
 							</div>
+							@if($ticket->From == 'Contact Us')
+							<div class="form-group">
+								<form method="GET" action="{{ url('/replyToTicket') }}">
+								  <label class="col-md-4 control-label"></label>
+								  <div class="col-md-4">
+									<button id="replyToUser" {{ isset($notOwner) ? 'disabled="disabled"' : '' }} {{ ($supportReplyEmail ? 'disabled="disabled"' : '' ) }} class="btn btn-primary">Reply</button>
+								  </div>
+								  <input type="hidden" value="{{ csrf_token() }}">
+								  <input id="ticketKey" name="key" type="hidden" value="{{$ticket->Key}}">
+								</form>
+							</div>
+							@endif
 							@if(strpos($ticket->VoicemailFileName,'.wav') || strpos($ticket->VoicemailFileName,'.mp3') !== false)
 							<div class="form-group">
 							  <label class="col-md-4 control-label" for="textarea" placeholder="Notes...">Voicemail Left:</label>
@@ -109,7 +133,7 @@
 							    <button id="updateNotes" {{ isset($notOwner) ? 'disabled="disabled"' : '' }} name="singlebutton" class="btn btn-primary">Update Notes</button>
 							  </div>
 							</div>
-														<!-- transfer list -->
+							<!-- transfer list -->
 							<div class="form-group">
 							  <label class="col-md-4 control-label" for="textarea" placeholder="Transfers">Transfers</label>
 							  <div class="col-md-4">                     

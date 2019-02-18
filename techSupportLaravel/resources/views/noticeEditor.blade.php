@@ -73,6 +73,12 @@
 					</div>					
 				</form>
 				
+				<style>
+					.ql-container{
+						height: 10em;
+					}
+				</style>
+				
 				<!-- Include the Quill library -->
 				<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>				
 				<script type="text/javascript" src="../../scripts/jquery.datetimepicker.js"></script>

@@ -12,12 +12,14 @@ use App\Employee;
 use App\Users;
 use App\SupportTypes;
 use App\SupportTicketTransfer;
+use App\SupportReplyEmail;
 
 use Illuminate\Http\Request as HttpRequest;
 
 use Request;
 use Auth;
 use Validator;
+use Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Config;
@@ -140,16 +142,80 @@ class TechSupportController extends Controller {
 		{
 			$ticket->formattedUserName = $user->LastName . ', ' . $user->FirstName . ' :: ' . $user->Login;
 		} 
+		$supportReplyEmail = SupportReplyEmail::where('SupportTicketID','=',$ticket->ID);
+		$replyEmail = false;
+		if(count($supportReplyEmail) > 0)
+		{
+			$replyEmail = true;
+		}
+		
+		
 		return view('ticket',[
 			'ticket'=>$ticket,
 			'notOwner'=>$notOwner,
 			'ownerName'=>$ownerName, 
 			'supportTypes'=>$supportTypes,
 			'techSupportEmployees'=>$techSupportEmployees,
-			'transferHistory'=>$transferHistory
+			'transferHistory'=>$transferHistory,
+			'supportReplyEmail'=>$replyEmail
 		]);
 	}
-
+	
+	/**
+	 * Display the specified resource.
+	 *
+	 */
+	public function replyToTicket(HttpRequest $request)
+	{
+		$key = old('key') !== null ? old('key') : Input::get('key');
+		$ticket = SupportTicket::where('Key','=',$key)->firstOrFail();
+		$owner = Employee::where('ID', '=',$ticket->EmployeeID)->first();
+		$ownerName = "Not Claimed";
+		if($owner)
+		{
+			$ownerName = $owner->FirstName . ' ' . $owner->LastName;
+		}
+				
+		return view('replyToTicket',[
+			'ticket'=>$ticket,
+			'ownerName'=>$ownerName
+		]);
+	}
+	
+	/**
+	 * Display the specified resource.
+	 *
+	 */
+	public function sendReplyToTicket(HttpRequest $request)
+	{
+		$formType = $request->formAction;		
+		
+		if($formType == 'send'){			
+			
+			$emailReply = $request->formValue;
+			$key = old('key') !== null ? old('key') : Input::get('key');
+			$ticket = SupportTicket::where('Key','=',$key)->firstOrFail();
+			$owner = Employee::where('ID', '=',$ticket->EmployeeID)->first();
+			
+			$supportReplyEmail = new SupportReplyEmail;
+			$supportReplyEmail->SupportTicketID = $ticket->ID;
+			$supportReplyEmail->ReplyEmail = $emailReply;
+			$supportReplyEmail->save();
+			
+			// Mail::queue('emails.ticketReply', ['ticketEmail' => $ticket->EmailMessage,'replyEmail' => $emailReply,'replyAdminName' => $owner->FirstName . " " . $owner->LastName], function($message) use ($ticket,$owner)  
+			// Mail::send('emails.ticketReply', ['ticketEmail' => $ticket->EmailMessage,'replyEmail' => $emailReply,'replyAdminName' => $owner->FirstName . " " . $owner->LastName], function($message) use ($ticket,$owner)  
+			// {
+				// $message->from($owner->Email,'Tech Support')->to($ticket->EmailAddress)->bcc($owner->Email)->subject('ATTN: Tech Support');
+			// });			
+			
+			return $this->showTicket()->withMessages(["Email sent!"]);			
+		}elseif($formType == 'cancel'){			
+			return $this->showTicket();
+		}else{			
+			return $this->showTicket()->withErrors(["Issue when sending reply email."]);
+		}
+		
+	}
 
 	public function updateNotes()
 	{
