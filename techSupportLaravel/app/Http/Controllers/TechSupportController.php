@@ -201,11 +201,11 @@ class TechSupportController extends Controller {
 			$supportReplyEmail->ReplyEmail = $emailReply;
 			$supportReplyEmail->save();
 			
-			Mail::queue('emails.ticketReply', ['ticketEmail' => $ticket->EmailMessage,'replyEmail' => $emailReply,'replyAdminName' => $owner->FirstName . " " . $owner->LastName], function($message) use ($ticket,$owner)  
+			// Mail::queue('emails.ticketReply', ['ticketEmail' => $ticket->EmailMessage,'replyEmail' => $emailReply,'replyAdminName' => $owner->FirstName . " " . $owner->LastName], function($message) use ($ticket,$owner)  
 			// Mail::send('emails.ticketReply', ['ticketEmail' => $ticket->EmailMessage,'replyEmail' => $emailReply,'replyAdminName' => $owner->FirstName . " " . $owner->LastName], function($message) use ($ticket,$owner)  
-			{
-				$message->from($owner->Email,'Tech Support')->to($ticket->EmailAddress,'User')->bcc($owner->Email)->subject('ATTN: Tech Support');
-			});			
+			// {
+				// $message->from($owner->Email,'Tech Support')->to($ticket->EmailAddress,'User')->bcc($owner->Email)->subject('ATTN: Tech Support');
+			// });			
 			
 			return $this->showTicket()->withMessages(["Email sent!"]);			
 		}elseif($formType == 'cancel'){			

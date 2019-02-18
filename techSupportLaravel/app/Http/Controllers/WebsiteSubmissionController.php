@@ -208,11 +208,11 @@ class WebsiteSubmissionController extends Controller
 	
 	static public function emailUserReceipt($emailAddress,$contactInfo,$userName,$description,$problemOverview)
 	{			
-		Mail::queue('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
+		// Mail::queue('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
 		// Mail::send('emails.ticketReceipt', ['contact'=>$contactInfo,'userName'=>$userName,'description'=>$description,'overview'=>$problemOverview], function($message) use ($emailAddress)  
-        {
-            $message->bcc($emailAddress, 'Tech Support')->subject('ATTN: Tech Support');
-        });		
+        // {
+            // $message->bcc($emailAddress, 'Tech Support')->subject('ATTN: Tech Support');
+        // });		
 	}
 	
 	static public function createTicket($contactInfo,$userName,$description,$problemOverview,$contactPreference,$browserInfo)
