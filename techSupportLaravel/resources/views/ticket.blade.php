@@ -99,7 +99,7 @@
 								<form method="GET" action="{{ url('/replyToTicket') }}">
 								  <label class="col-md-4 control-label"></label>
 								  <div class="col-md-4">
-									<button id="replyToUser" {{ isset($notOwner) ? 'disabled="disabled"' : '' }} {{ ($supportReplyEmail != 0 ? 'disabled="disabled"' : '' ) }} class="btn btn-primary">Reply</button>
+									<button id="replyToUser" {{ isset($notOwner) ? 'disabled="disabled"' : '' }} {{ ($supportReplyEmail != 0 ? ' disabled="disabled" ' : '' ) }} class="btn btn-primary">Reply</button>
 								  </div>
 								  <input type="hidden" value="{{ csrf_token() }}">
 								  <input id="ticketKey" name="key" type="hidden" value="{{$ticket->Key}}">
