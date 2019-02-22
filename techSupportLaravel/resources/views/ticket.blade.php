@@ -80,6 +80,12 @@
 									<a href="tel:3372164599,,,9,30942353#">Callbridge</a>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Ticket Created:</label>
+								<div class="col-md-4 top-buffer">
+									{{ $ticket->created_at }}
+								</div>
+							</div>
 							@if($ticket->formattedUserName !== null)
 							<div class="form-group">
 							  <label class="col-md-4 control-label">User:</label>
