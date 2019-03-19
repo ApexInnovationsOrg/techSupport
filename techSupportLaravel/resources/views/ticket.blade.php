@@ -100,7 +100,7 @@
 							    {!! nl2br($ticket->EmailMessage) !!}
 							  </div>
 							</div>
-							@if($ticket->From == 'Contact Us')
+							@if($ticket->From == 'Contact Us' && (is_null($ticket->PhoneNumber) || $ticket->PhoneNumber == ""))
 							<div class="form-group">
 								<form method="GET" action="{{ url('/replyToTicket') }}">
 								  <label class="col-md-4 control-label"></label>
