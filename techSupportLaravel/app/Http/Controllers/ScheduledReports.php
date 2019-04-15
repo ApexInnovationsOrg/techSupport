@@ -203,6 +203,8 @@ class ScheduledReports extends Controller
 					"Course Name"=>((isset($reportParams->CourseID) && isset($reportParams->CourseName) && $reportParams->CourseID > 0) ? $reportParams->CourseName : null),
 					"LicenseID"=>((isset($reportParams->LicenseID) && $reportParams->LicenseID > 0) ? $reportParams->LicenseID : null),
 					"License Name"=>((isset($reportParams->LicenseID) && isset($reportParams->LicenseName) && $reportParams->LicenseID > 0) ? $reportParams->LicenseName : null),
+					"UserID"=>((isset($reportParams->UserID) && $reportParams->UserID > 0) ? $reportParams->UserID : null),
+					"User Name"=>((isset($reportParams->UserID) && isset($reportParams->UserName) && $reportParams->UserID > 0) ? $reportParams->UserName : null),
 					"StartDate"=>(isset($reportParams->StartDate) ? $reportParams->StartDate : null),
 					"EndDate"=>(isset($reportParams->EndDate) ? $reportParams->EndDate : null)
 				);
