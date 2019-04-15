@@ -3,6 +3,8 @@
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Notifications\SlackNotifier;
+use App\Http\Controllers\ScheduledReports as ScheduledReports;
+
 
 use Log;
 class Kernel extends ConsoleKernel {
@@ -15,6 +17,7 @@ class Kernel extends ConsoleKernel {
 	protected $commands = [
 		'App\Console\Commands\Inspire',
 	];
+	
 
 	/**
 	 * Define the application's command schedule.
@@ -26,6 +29,9 @@ class Kernel extends ConsoleKernel {
 	{
 		// $schedule->command('inspire')
 		// 		 ->hourly();
+		
+		$schedule->call('App\Http\Controllers\ScheduledReports@runScheduledReports')->everyMinute();
+		
 		$times = ['09:00','10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
 		foreach($times as $time)
 		{
@@ -37,8 +43,7 @@ class Kernel extends ConsoleKernel {
 		        $gifURL = $obj->data[array_rand($obj->data)]->images->original->url;
 		        // SlackNotifier::message('Gif of the hour',env('SLACK_WEBHOOK_CAGE'));
 
-	       		SlackNotifier::message('Gif of the hour
-' . $gifURL,env('SLACK_WEBHOOK_CAGE'));
+	       		SlackNotifier::message('Gif of the hour' . $gifURL,env('SLACK_WEBHOOK_CAGE'));
 
 			})->weekdays()->at($time);
       	}
