@@ -69,7 +69,7 @@ class ScheduledReports extends Controller
 				
 			}
 			
-			$runReport = true; //Remove this when not testing
+			// $runReport = true; //Remove this when not testing
 			if($runReport)
 			{
 				//Get vars
