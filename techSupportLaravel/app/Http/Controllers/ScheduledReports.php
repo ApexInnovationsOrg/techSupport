@@ -97,7 +97,8 @@ class ScheduledReports extends Controller
 	{			
 	
 		//Send out report request to reportAPI
-		$url = 'https://devbox2.apexinnovations.com/ajax/reportAPI/index.php?' . $reportVarString;
+		// $url = 'https://devbox2.apexinnovations.com/ajax/reportAPI/index.php?' . $reportVarString;
+		$url = 'https://www.apexinnovations.com/ajax/reportAPI/index.php?' . $reportVarString;
 		
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36');
