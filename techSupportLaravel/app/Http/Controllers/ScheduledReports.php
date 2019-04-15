@@ -28,8 +28,7 @@ class ScheduledReports extends Controller
 							FROM ReportSchedules RS 
 							INNER JOIN Reports R ON R.ID = RS.ReportID 
 							INNER JOIN ReportOccurrences RO ON RO.ID = RS.ReportOccurrenceID 
-							INNER JOIN Users U ON U.ID = RS.UserID
-							WHERE RS.ID = 1");
+							INNER JOIN Users U ON U.ID = RS.UserID");
 		
 		$this->determineReportsToRun($reports);
 	}	
