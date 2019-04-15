@@ -119,7 +119,7 @@ class ScheduledReports extends Controller
 		$adminName = $report->FirstName . " " . $report->LastName;
 		$reportParams = array("Report"=>$report->ReportName,
 							"Frequency"=>$report->Type,
-							"Initial Scheduled Date"=>$report->ScheduleDate);
+							"Initial Scheduled Date"=>$report->ScheduleDate . " CST");
 		
 		//Look over report parameters and grab the names of information that is set.
 		//Also create a StartDate and EndDate variable with a space in the name, used for email.
