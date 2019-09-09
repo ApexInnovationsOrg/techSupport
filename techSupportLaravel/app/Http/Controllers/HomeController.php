@@ -94,7 +94,7 @@ class HomeController extends Controller {
 		}
 		$formattedTickets = json_encode($response);
 
-		return view('home',['tickets'=>$formattedTickets,'unclaimedTickets'=>$UnclaimedTicketsFormatted,'bounty'=>$bounty]);
+		return view('home')->with(['tickets'=>$formattedTickets,'unclaimedTickets'=>$UnclaimedTicketsFormatted,'bounty'=>$bounty]);
 	}
 
 	public function calculateBounty($key = null, $forTicket = false)

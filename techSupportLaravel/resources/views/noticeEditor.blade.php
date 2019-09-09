@@ -13,7 +13,7 @@
 					</div>
 				@endif
 				
-				@if ($errors && count($errors) > 0)
+				@if (count($errors) > 0)
 					<div class="alert alert-danger">
 						<strong>Whoops!</strong> There were some problems with your input.<br><br>
 						<ul>
@@ -24,7 +24,7 @@
 					</div>
 				@endif
 				
-				@if ($notices && count($notices) > 0)
+				@if (count($notices) > 0)
 					<div class="notice">
 						<label for='noticeSelect'><strong>Select Notice:&nbsp;&nbsp;</strong></label>
 						<select name='noticeSelect' id='noticeSelect'>
