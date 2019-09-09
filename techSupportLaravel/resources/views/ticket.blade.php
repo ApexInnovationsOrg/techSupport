@@ -38,7 +38,7 @@
 					  </div>
 					</div>
 
-					@if (count($errors) > 0)
+					@if ($errors && count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
 							<ul>
@@ -144,7 +144,7 @@
 							  <label class="col-md-4 control-label" for="textarea" placeholder="Transfers">Transfers</label>
 							  <div class="col-md-4">                     
 							    <ul class="top-buffer">
-							    	@if(count($transferHistory) > 0)
+							    	@if($transferHistory && count($transferHistory) > 0)
 								    	@foreach($transferHistory as $transfer)
 								    		@if($transfer->TransferTo !== null)
 								    			<li class="top-buffer" data-toggle="tooltip" data-placement="top" title="{{ $transfer->TransferReason }}">{{ $transfer->created_at . ' from ' . $transfer->TransferFrom .  ' to ' . $transfer->TransferTo }}</li>
