@@ -15,7 +15,7 @@
 					@endif
 
 
-					@if ($errors && count($errors) > 0)
+					@if (is_array($errors) && count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
 							<ul>
@@ -26,7 +26,7 @@
 						</div>
 					@endif
 					<h4>Your Tickets</h4>
-					@if ($tickets && count($tickets) > 0)
+					@if (is_array($tickets) && count($tickets) > 0)
 						<table id="claimedTable" class="bordered-table zebra-striped dataTable no-footer">
 						  <thead>
 						    <th>Code Name</th>
@@ -48,7 +48,7 @@
 								  table : { copyHeaderClass: true }
 								 });
 							</script>
-					@elseif ($tickets && count($tickets) == 0)
+					@elseif (is_array($tickets) && count($tickets) == 0)
 							
 						<div class="alert alert-success" role="alert">
 					      You Have 0 unfinished tickets
