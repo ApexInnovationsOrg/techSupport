@@ -20,6 +20,13 @@ class AES
 		$this->key = $key;
 	}
 
+	private function hex3bin($hexString) {
+		if (strlen($hexString) % 2 != 0 || preg_match("/[^\da-fA-F]/",$hexString)) {
+			throw new Exception("Invalid hexadecimal number ($hexString) in hex3bin()." . (strlen($hexString) % 2 != 0 ? ' Must have even number of characters.' : ''));
+		}
+		return pack("H*", $hexString);
+	}
+
 	public function encrypt($input) {
 	  // $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
 	  $encrypted = openssl_encrypt($input, 'aes-256-cbc', $this->key, 0, $this->iv);
@@ -31,12 +38,4 @@ class AES
 	    explode('::', base64_decode($input), 2);
 	    return openssl_decrypt($encrypted_data, 'aes-256-cbc', $this->key, 0, $this->iv);
 	}
-	
-	private function hex3bin($hexString) {
-		if (strlen($hexString) % 2 != 0 || preg_match("/[^\da-fA-F]/",$hexString)) {
-			throw new Exception("Invalid hexadecimal number ($hexString) in hex3bin()." . (strlen($hexString) % 2 != 0 ? ' Must have even number of characters.' : ''));
-		}
-		return pack("H*", $hexString);
-	}
-	
 }

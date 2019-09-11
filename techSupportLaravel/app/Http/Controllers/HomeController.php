@@ -1,6 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-
+if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    // Ignores notices and reports all other kinds... and warnings
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+    // error_reporting(E_ALL ^ E_WARNING); // Maybe this is enough
+}
 use Auth;
 use DB;
 use Session;
@@ -94,7 +98,7 @@ class HomeController extends Controller {
 		}
 		$formattedTickets = json_encode($response);
 
-		return view('home',['tickets'=>$formattedTickets,'unclaimedTickets'=>$UnclaimedTicketsFormatted,'bounty'=>$bounty]);
+		return view('home')->with(['tickets'=>$formattedTickets,'unclaimedTickets'=>$UnclaimedTicketsFormatted,'bounty'=>$bounty]);
 	}
 
 	public function calculateBounty($key = null, $forTicket = false)

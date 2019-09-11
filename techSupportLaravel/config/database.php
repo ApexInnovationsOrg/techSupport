@@ -112,18 +112,20 @@ return [
 
 	'redis' => [
 
-		'cluster' => false,
+		'client' => 'predis',
 
         'default' => [
             'host'     => env('REDIS_HOST','db2.apexinnovations.com'),
             'port'     => env('REDIS_PORT',6379),
-            'password' => env('REDIS_AUTH',null),
+			'password' => env('REDIS_AUTH',null),
+			'database' => 0
         ],
 
         'session' => [
           	'host'     => env('REDIS_HOST','db2.apexinnovations.com'),
             'port'     => env('REDIS_PORT',6379),
-            'password' => env('REDIS_AUTH',null),
+			'password' => env('REDIS_AUTH',null),
+			'database' => 1
         ],
 
 	],
