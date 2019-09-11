@@ -221,7 +221,7 @@ class ScheduledReports extends Controller
 	{
 		defined('ENGINE_DATA_ENCRYPTION_KEY') or define('ENGINE_DATA_ENCRYPTION_KEY', env('ENGINE_DATA_ENCRYPTION_KEY'));	
 		defined('ENGINE_DATA_DELIMITER') or define('ENGINE_DATA_DELIMITER', env('ENGINE_DATA_DELIMITER'));																		
-		defined('ENGINE_DATA_ENCRYPTION_MODE') or define('ENGINE_DATA_ENCRYPTION_MODE', MCRYPT_MODE_CBC);
+		defined('ENGINE_DATA_ENCRYPTION_MODE') or define('ENGINE_DATA_ENCRYPTION_MODE', false);
 		
 		$cipher = new AES(ENGINE_DATA_ENCRYPTION_MODE, $this->hex3bin(ENGINE_DATA_ENCRYPTION_KEY));	
 		$dataArray = array("authorizeRunReport=" . env('AUTHORIZE_VALUE'),'timestamp='.time());
