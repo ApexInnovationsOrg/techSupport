@@ -23,7 +23,7 @@ class ScheduledReports extends Controller
 	 * @return void
 	 */	
 	public function runScheduledReports()
-    {
+    {		
 		$reports = DB::select("SELECT R.Controller, RS.UserID, RS.ScheduleDate, R.Name AS ReportName, RO.Type, RS.Parameters, U.FirstName, U.LastName, U.Login AS EmailAddress
 							FROM ReportSchedules RS 
 							INNER JOIN Reports R ON R.ID = RS.ReportID 
@@ -225,7 +225,7 @@ class ScheduledReports extends Controller
 		
 		$cipher = new AES(ENGINE_DATA_ENCRYPTION_MODE, $this->hex3bin(ENGINE_DATA_ENCRYPTION_KEY));	
 		$dataArray = array("authorizeRunReport=" . env('AUTHORIZE_VALUE'),'timestamp='.time());
-		shuffle($dataArray);
+		//shuffle($dataArray);
 		
 		return bin2hex($cipher->encrypt(implode(ENGINE_DATA_DELIMITER, $dataArray)));
 	}

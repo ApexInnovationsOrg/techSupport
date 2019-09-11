@@ -1,10 +1,12 @@
 <?php namespace app\Helpers;
 
+use Exception;
+
 class AES
 {
 	private $mode, $key, $iv;
 	
-	function __construct($mode, $key, $iv) {
+	function __construct($mode, $key, $iv = null) {
 		// Ensure key size of 128, 192, or 256 bits
 		$keylen = strlen(bin2hex($key)) * 4;
 		if (!($keylen == 128 || $keylen == 192 || $keylen == 256)) {
