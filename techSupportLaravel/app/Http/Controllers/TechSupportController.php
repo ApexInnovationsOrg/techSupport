@@ -272,13 +272,13 @@ class TechSupportController extends Controller {
 		$searchTerm = urldecode(Input::get('search'));
 		if (($pos = strpos($searchTerm, ", ")) !== false) {
 			// Form of "LastName, FirstName"
-			$users = Users::where('FirstName', 'LIKE', '%' . substr($searchTerm, $pos + 2) . '%')->where('LastName', 'LIKE', '%' . substr($searchTerm, 0, $pos) . '%')->orderBy('LastName','ASC')->get();
+			$users = Users::where('FirstName', 'LIKE', '%' . substr($searchTerm, $pos + 2) . '%')->where('LastName', 'LIKE', '%' . substr($searchTerm, 0, $pos) . '%')->orderBy('LastName','ASC')->orderBy('LastLoginDate','DESC')->get();
 		} else if (($pos = strpos($searchTerm, " ")) !== false) {
 			// Form of "FirstName LastName"
-			$users = Users::where('FirstName', 'LIKE', '%' . substr($searchTerm, 0, $pos) . '%')->where('LastName', 'LIKE', '%' . substr($searchTerm, $pos + 1) . '%')->orderBy('LastName','ASC')->get();
+			$users = Users::where('FirstName', 'LIKE', '%' . substr($searchTerm, 0, $pos) . '%')->where('LastName', 'LIKE', '%' . substr($searchTerm, $pos + 1) . '%')->orderBy('LastName','ASC')->orderBy('LastLoginDate','DESC')->get();
 		} else {
 			// If it's not of that form, just submit it in bulk
-			$users = Users::where('FirstName', 'LIKE', '%' . $searchTerm . '%')->orWhere('LastName', 'LIKE', '%' . $searchTerm . '%')->orWhere('Login', 'LIKE', '%' . $searchTerm . '%')->orderBy('LastName','ASC')->get();
+			$users = Users::where('FirstName', 'LIKE', '%' . $searchTerm . '%')->orWhere('LastName', 'LIKE', '%' . $searchTerm . '%')->orWhere('Login', 'LIKE', '%' . $searchTerm . '%')->orderBy('LastName','ASC')->orderBy('LastLoginDate','DESC')->get();
 		}
 
 
