@@ -43,7 +43,7 @@ class Kernel extends ConsoleKernel {
 		        $gifURL = $obj->data[array_rand($obj->data)]->images->original->url;
 		        // SlackNotifier::message('Gif of the hour',env('SLACK_WEBHOOK_CAGE'));
 
-	       		SlackNotifier::message('Gif of the hour' . $gifURL,env('SLACK_WEBHOOK_CAGE'));
+	       		SlackNotifier::message('Gif of the hour: ' . $gifURL,env('SLACK_WEBHOOK_CAGE'));
 
 			})->weekdays()->at($time);
       	}
