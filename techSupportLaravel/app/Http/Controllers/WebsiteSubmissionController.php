@@ -178,7 +178,7 @@ class WebsiteSubmissionController extends Controller
     {
 		$prodNames = array();
 		
-		$products = Products::where('Active','=','Y')->whereNotNull('UnitPrice')->select('Name')->orderBy('Name','asc')->get();
+		$products = Products::where('Active','=','Y')->orWhere('ID','9')->whereNotNull('UnitPrice')->select('Name')->orderBy('Name','asc')->get();
 		foreach($products as $product){
 			$prodNames[] = $product->Name;
 		}
