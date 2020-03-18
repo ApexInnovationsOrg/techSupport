@@ -9,7 +9,7 @@ a:visited{
 a{
     text-decoration:none;
 }
-</style>
+</style> 
   <div style="margin:14pt 0 18.75pt 0; font-size:16px">{!! $userName !!},<br/><br/>Thank you for starting a support ticket. We'll get with you ASAP!<br/>Below is a receipt of your submitted tech support ticket:</div>
   <hr/>
   <div style="margin:14pt 0 18.75pt 0; font-size:16px">Contact: {{ $contact }}</div>
